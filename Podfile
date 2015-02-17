@@ -3,8 +3,9 @@
 
 target 'How Tweet It Is' do
   pod 'AFNetworking', :git => 'https://github.com/kfarst/AFNetworking.git'
-  pod 'SwiftyJSON'
+  #pod 'SwiftyJSON', '2.1.3'
   pod 'SVProgressHUD'
+  pod 'BDBOAuth1Manager'
 end
 
 target 'How Tweet It IsTests' do

@@ -12,10 +12,15 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var storyboard = UIStoryboard(name: "Main", bundle: nil)
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        var loginViewController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as LoginViewController
+        
+        window?.rootViewController = loginViewController
+        
         return true
     }
 

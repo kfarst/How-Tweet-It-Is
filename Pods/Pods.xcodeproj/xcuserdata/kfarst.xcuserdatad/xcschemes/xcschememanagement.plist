@@ -9,12 +9,12 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-How Tweet It Is-SVProgressHUD.xcscheme</key>
+		<key>Pods-How Tweet It Is-BDBOAuth1Manager.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-How Tweet It Is-SwiftyJSON.xcscheme</key>
+		<key>Pods-How Tweet It Is-SVProgressHUD.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -27,22 +27,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>1F8A4AB279880F46D767963A</key>
+		<key>48A08F6A1A5BB759D9FFB5AE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3F5D5D87716761D04C199BA7</key>
+		<key>7D65C475CF40004931974B3A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>74D3FA76E54683F6EE0D29AC</key>
+		<key>81D0846C1BDE0F0BD2EBE933</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7D0A99B084C032D02A2BFBB4</key>
+		<key>C138BD4E2C33EA431FBAF4B2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
