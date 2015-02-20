@@ -44,7 +44,7 @@ class User: NSObject {
         NSNotificationCenter.defaultCenter().postNotificationName(userDidLogoutNotification, object: nil)
     }
     
-    class var currentUser:User? {
+    class var currentUser: User? {
         get {
         if _currentUser == nil {
         var data = NSUserDefaults.standardUserDefaults().objectForKey(currentUserKey) as? NSData
@@ -68,5 +68,4 @@ class User: NSObject {
             
         }
     }
-    
 }
