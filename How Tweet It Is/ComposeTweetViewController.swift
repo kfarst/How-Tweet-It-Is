@@ -25,8 +25,31 @@ class ComposeTweetViewController: UIViewController {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
+    @IBAction func newTweetPosted(sender: AnyObject) {
+        var text = tweetText.text
+        var inReplyToTweetId: String? = nil
+        
+        if let inReplyToTweet = replyToTweet {
+            inReplyToTweetId = inReplyToTweet.id
+        }
+        
+        Tweet.newTweet(text, inReplyToTweetId: inReplyToTweetId) { (tweet, error) -> () in
+            if (error != nil) {
+                println("error while Tweeting! \(error)")
+            } else {
+                println("Tweeted!!!!!! \(tweet)")
+                NSNotificationCenter.defaultCenter().postNotificationName("NewTweetCreated", object: tweet)
+                
+                self.dismissViewControllerAnimated(true, completion: {
+                    
+                })
+            }
+        }
+    }
+    
     var user = User.currentUser
     var delegate: ComposeTweetDelegate!
+    var replyToTweet: Tweet?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +69,14 @@ class ComposeTweetViewController: UIViewController {
         nameLabel.text = user?.name
         handleLabel.text = user?.screenName
 
-        tweetText.text = "What do you want to say?"
+        if replyToTweet == nil {
+            tweetText.text = "What do you want to say?"
+        } else {
+            if let handle = replyToTweet?.user?.screenName {
+                tweetText.text = "@\(handle)"
+            }
+        }
+        
         tweetText.textColor = UIColor.lightGrayColor()
         
         tweetText.becomeFirstResponder()

@@ -8,13 +8,14 @@
 
 import UIKit
 
-class DashboardViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class DashboardViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TweetDetailViewControllerDelegate {
     
     @IBOutlet weak var tweetTableView: UITableView!
     
     var tweets: [Tweet] = []
     var refreshControl: UIRefreshControl!
     var sb = UIStoryboard(name: "Main", bundle: nil)
+    var selectedTableRow = -1
     
     @IBAction func composeTweet(sender: AnyObject) {
         var vc = sb.instantiateViewControllerWithIdentifier("ComposeTweetViewController") as ComposeTweetViewController
@@ -24,9 +25,6 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
     
     @IBAction func profileImageTapped(sender: AnyObject) {
     }
-    
-    
-    
     
     @IBAction func logoutUser(sender: AnyObject) {
         User.currentUser?.logout()
@@ -49,9 +47,20 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
             }
         })
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "newTweetCreated:", name:"NewTweetCreated", object: nil)
+
         initializeRefreshControl()
         tweetTableView.reloadData()
         // Do any additional setup after loading the view.
+    }
+    
+    func newTweetCreated(notification: NSNotification){
+        //Action take on Notification
+        println("I got the tweet in TweetsViewController")
+        var tweet = notification.object as Tweet
+        self.tweets.insert(tweet, atIndex: 0)
+        NSLog("Got the tweet in the main controller")
+        self.tweetTableView.reloadData()
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -105,6 +114,12 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         self.refreshControl.endRefreshing()
     }
     
+    func backButtonClicked(tweet: Tweet, indexPathRow: Int) {
+        self.tweets[indexPathRow] = tweet
+        var cell = self.tweetTableView.cellForRowAtIndexPath(NSIndexPath(forRow: indexPathRow, inSection: 0)) as TweetTableViewCell
+        cell.tweet = tweet
+    }
+    
     func initializeRefreshControl() {
         self.refreshControl = UIRefreshControl()
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refersh")
@@ -117,15 +132,17 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         // Dispose of any resources thkat can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "TweetDetailSegue" {
+            var vc: TweetDetailViewController = segue.destinationViewController as TweetDetailViewController
+            var index = tweetTableView.indexPathForSelectedRow()!.row
+            self.tweetTableView.deselectRowAtIndexPath(tweetTableView.indexPathForSelectedRow()!, animated: false)
+            var selectedTweet = self.tweets[index]
+            vc.tweet = selectedTweet
+            vc.indexPathRow = index
+            vc.delegate = self
+        }
     }
-    */
-
 }
