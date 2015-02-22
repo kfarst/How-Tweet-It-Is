@@ -102,13 +102,13 @@ class TweetDetailViewController: UIViewController {
             self.favoriteCount.hidden = false
             self.favoriteCount.text = "\(tweet!.favoriteCount!)"
         } else {
-            self.favoriteCount.hidden = true
+            self.favoriteCount.text = "0"
         }
         if (tweet!.retweetCount > 0) {
             self.retweetCount.hidden = false
             self.retweetCount.text = "\(tweet!.retweetCount!)"
         } else {
-            self.retweetCount.hidden = true
+            self.favoriteCount.text = "0"
         }
         
         if let retweetedBy = tweet?.retweetedBy {
