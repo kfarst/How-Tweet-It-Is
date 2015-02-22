@@ -42,22 +42,18 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
     func homeTimelineWithParams(params: NSDictionary?, completion: (tweets: [Tweet]?, error: NSError?) -> ()) {
         TwitterClient.sharedInstance.GET("1.1/statuses/home_timeline.json", parameters: params,
             success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
-                //println("user: \(response)")
                 var tweets = Tweet.tweetsWithArray(response as [NSDictionary])
                 completion(tweets: tweets, error: nil)
                 
             }, failure: { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
-                println("failed to get the User data")
                 completion(tweets: nil, error: error)
             }
         )
-        
     }
     
     func openUrl(url: NSURL) {
         TwitterClient.sharedInstance.fetchAccessTokenWithPath("oauth/access_token", method: "POST", requestToken: BDBOAuth1Credential(queryString: url.query),
             success: { (accessToken: BDBOAuth1Credential!) -> Void in
-                println("Got the access token")
                 TwitterClient.sharedInstance.requestSerializer.saveAccessToken(accessToken)
                 
                 TwitterClient.sharedInstance.GET("1.1/account/verify_credentials.json", parameters: nil,
@@ -71,10 +67,6 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
                         println("failed to get the User data")
                         self.loginCompletion?(user: nil, error: error)
                 })
-                
-                
-                
-                
             },
             failure: { (error: NSError!) -> Void in
                 println("failed ot get the access token")

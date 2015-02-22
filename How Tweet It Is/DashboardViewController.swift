@@ -49,14 +49,13 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         
         Tweet.retweet(tweet.id!, completion: {(error: NSError?) -> Void in
             if (error != nil) {
-                println("error while retweeting! \(error)")
+                println("Retweeting error: \(error)")
                 tweet.retweeted = 0
                 tweet.retweetCount! -= 1
                 var cell = self.tweetTableView.cellForRowAtIndexPath(NSIndexPath(forRow: indexPathRow, inSection: 0)) as TweetTableViewCell
                 cell.tweet = tweet
                 
             } else {
-                println("retweeted!!!!!  while retweeting!")
                 self.tweets[indexPathRow] = tweet
             }
         })
@@ -76,12 +75,10 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
             
             Tweet.unfavorite(tweet.id!, completion: {(error: NSError?) -> Void in
                 if (error != nil) {
-                    println("error while unfavoriting! \(error)")
                     tweet.favorited = 1
                     tweet.favoriteCount! += 1
                     cell.tweet = tweet
                 } else {
-                    println("unfavorited!!!!!")
                     self.tweets[indexPathRow] = tweet
                 }
             })
@@ -95,12 +92,10 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
             
             Tweet.favorite(tweet.id!, completion: {(error: NSError?) -> Void in
                 if (error != nil) {
-                    println("error while favoriting! \(error)")
                     tweet.favorited = 0
                     tweet.favoriteCount! -= 1
                     cell.tweet = tweet
                 } else {
-                    println("favorited!!!!!")
                     self.tweets[indexPathRow] = tweet
                 }
             })
@@ -123,7 +118,7 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
                 self.tweetTableView.reloadData()
                 SVProgressHUD.dismiss()
             } else {
-                println("Failed to get the tweets \(error!)")
+                println("Tweets fetching error: \(error!)")
             }
         })
         
@@ -142,24 +137,21 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func newTweetCreated(notification: NSNotification){
-        //Action take on Notification
-        println("I got the tweet in TweetsViewController")
         var tweet = notification.object as Tweet
+        
         self.tweets.insert(tweet, atIndex: 0)
-        NSLog("Got the tweet in the main controller")
         self.tweetTableView.reloadData()
         self.tweetTableView.scrollRectToVisible(CGRectMake(0, 0, 1, 1), animated: true)
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier("TweetTableViewCell") as TweetTableViewCell
-        //cell.parentViewController = self
+        
         cell.indexPathRow = indexPath.row
         cell.tweet = tweets[indexPath.row]
         cell.delegate = self
         
-        if (tweets.count - indexPath.row == 1/*&& !self.isInfiniteRefreshing*/) {
-            //infiniteActivityIndicator.hidden = false
+        if (tweets.count - indexPath.row == 1) {
             dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), {
                 self.loadMoreTweets()
             })
@@ -175,31 +167,16 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
     func loadMoreTweets() {
         
         var params: NSDictionary = ["max_id": self.tweets[tweets.count-1].id!]
-       // self.isInfiniteRefreshing = true
-        //println("\(params)")
-        //if (self.viewMode == "home") {
-            Tweet.getHomeTimeline(params, completion: {(newTweets: [Tweet]?, error: NSError?) -> Void in
-                if (newTweets != nil) {
-                    self.tweets += newTweets!
-                    self.tweetTableView.reloadData()
-                    //self.infiniteActivityIndicator.hidden = true
-                    //self.isInfiniteRefreshing = false
-                } else {
-                    println("Failed to get the tweets \(error!)")
-                }
-            })
-       //} else if self.viewMode == "mentions" {
-       //    Tweet.getMentionsTimeline(params, completion: {(newTweets: [Tweet]?, error: NSError?) -> Void in
-       //        if (newTweets != nil) {
-       //            self.tweets += newTweets!
-       //            self.tweetsTableView.reloadData()
-       //            self.infiniteActivityIndicator.hidden = true
-       //            self.isInfiniteRefreshing = false
-       //        } else {
-       //            println("Failed to get the mentions \(error!)")
-       //        }
-       //    })
-       //}
+        
+        Tweet.getHomeTimeline(params, completion: {(newTweets: [Tweet]?, error: NSError?) -> Void in
+            if (newTweets != nil) {
+                self.tweets += newTweets!
+                self.tweetTableView.reloadData()
+            } else {
+                println("Tweets fetching error: \(error!)")
+            }
+        })
+        
         self.refreshControl.endRefreshing()
     }
     

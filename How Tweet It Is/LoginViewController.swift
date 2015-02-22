@@ -18,13 +18,10 @@ class LoginViewController: UIViewController {
     @IBAction func twitterLogin(sender: AnyObject) {
         TwitterClient.sharedInstance.loginWithCompletion() {
             (user: User?, error: NSError?) in
-            println("User is: \(user)")
+
             if user != nil {
                 self.performSegueWithIdentifier("DashboardSegue", sender: self)
             } else {
-               //var alert = UIAlertController(title: "Error", message: error as? String, preferredStyle: UIAlertControllerStyle.Alert)
-               //alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.Default, handler: nil))
-               //self.presentViewController(alert, animated: true, completion: nil)
                println(error)
             }
             

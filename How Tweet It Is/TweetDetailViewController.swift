@@ -47,13 +47,10 @@ class TweetDetailViewController: UIViewController {
         
         Tweet.retweet(self.tweet!.id!, completion: {(error: NSError?) -> Void in
             if (error != nil) {
-                println("error while retweeting! \(error)")
                 self.tweet!.retweeted = 0
                 self.tweet!.retweetCount! -= 1
                 self.retweetButton.enabled = true
                 self.viewDidLoad()
-            } else {
-                println("retweeted!!!!!  while retweeting!")
             }
         })
 
@@ -66,12 +63,9 @@ class TweetDetailViewController: UIViewController {
             self.viewDidLoad()
             Tweet.favorite(self.tweet!.id!, completion: {(error: NSError?) -> Void in
                 if (error != nil) {
-                    println("error while favoriting! \(error)")
                     self.tweet!.favorited = 0
                     self.tweet!.favoriteCount! -= 1
                     self.viewDidLoad()
-                } else {
-                    println("Favorited!!!!!!")
                 }
             })
         } else {
@@ -81,12 +75,9 @@ class TweetDetailViewController: UIViewController {
             
             Tweet.unfavorite(self.tweet!.id!, completion: {(error: NSError?) -> Void in
                 if (error != nil) {
-                    println("error while unfavoriting! \(error)")
                     self.tweet!.favorited = 0
                     self.tweet!.favoriteCount! -= 1
                     self.viewDidLoad()
-                } else {
-                    println("unFavorited!!!!!!")
                 }
             })
         }
@@ -95,8 +86,10 @@ class TweetDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         profileImage.setImageWithURL(NSURL(string: tweet!.user!.profileImageUrl!))
+        profileImage.layer.cornerRadius = 4
+        profileImage.clipsToBounds = true
+        
         nameLabel.text = tweet!.user?.name!
         handleLabel.text = "@\(tweet!.user!.screenName!)"
         tweetLabel.text = tweet!.text!
@@ -123,21 +116,9 @@ class TweetDetailViewController: UIViewController {
             self.retweetLabel.hidden = false
             self.retweetImage.hidden = false
             
-            //handleLabelTopConstraint.constant = 25.0
-            //profileThumbViewTopConstraint.constant = 25.0
-            //profileThumbButtonTopConstraint.constant = 25.0
-            //timeLabelTopConstraint.constant = 25.0
-            //nameLabelTopConstraint.constant = 24.0
-            
         } else {
-            // Fix this to change the height to 0 by changing the constraint
             self.retweetLabel.hidden = true
             self.retweetImage.hidden = true
-            //handleLabelTopConstraint.constant = 9.0
-            //profileThumbViewTopConstraint.constant = 9.0
-            //profileThumbButtonTopConstraint.constant = 9.0
-            //timeLabelTopConstraint.constant = 9.0
-            //nameLabelTopConstraint.constant = 8.0
             
         }
         

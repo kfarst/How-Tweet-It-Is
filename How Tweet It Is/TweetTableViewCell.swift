@@ -38,12 +38,14 @@ class TweetTableViewCell: UITableViewCell {
             self.nameLabel.text = newTweet.user!.name
             self.handleLabel.text = "@\(newTweet.user!.screenName!)"
             self.tweetLabel.text = newTweet.text
+            
             if (newTweet.favoriteCount > 0) {
                 self.favoriteCountLabel.hidden = false
                 self.favoriteCountLabel.text = "\(newTweet.favoriteCount!)"
             } else {
                 self.favoriteCountLabel.hidden = true
             }
+            
             if (newTweet.retweetCount > 0) {
                 self.retweetCountLabel.hidden = false
                 self.retweetCountLabel.text = "\(newTweet.retweetCount!)"
@@ -55,24 +57,11 @@ class TweetTableViewCell: UITableViewCell {
                 self.retweetLabel.text = "\(retweetedBy.name!) retweeted"
                 self.retweetLabel.hidden = false
                 self.retweetImage.hidden = false
-                
-                //handleLabelTopConstraint.constant = 25.0
-                //profileThumbViewTopConstraint.constant = 25.0
-                //profileThumbButtonTopConstraint.constant = 25.0
-                //timeLabelTopConstraint.constant = 25.0
-                //nameLabelTopConstraint.constant = 24.0
-                
             } else {
-                // Fix this to change the height to 0 by changing the constraint
                 self.retweetLabel.hidden = true
                 self.retweetImage.hidden = true
-                //handleLabelTopConstraint.constant = 9.0
-                //profileThumbViewTopConstraint.constant = 9.0
-                //profileThumbButtonTopConstraint.constant = 9.0
-                //timeLabelTopConstraint.constant = 9.0
-                //nameLabelTopConstraint.constant = 8.0
-                
             }
+            
             self.profileImage.setImageWithURL(NSURL(string: newTweet.user!.profileImageUrl! as NSString))
             
             profileImage.layer.cornerRadius = 5;
@@ -90,21 +79,19 @@ class TweetTableViewCell: UITableViewCell {
             }
             
             if (newTweet.favorited == 1) {
-                //                self.favoriteButton.enabled = false
+                self.favoriteButton.enabled = false
                 let image = UIImage(named: "favorite-on.png") as UIImage?
                 self.favoriteButton.setImage(image, forState: UIControlState.Normal)
             } else {
-                //              self.favoriteButton.enabled = true
+                self.favoriteButton.enabled = true
                 let image = UIImage(named: "favorite-light.png") as UIImage?
                 self.favoriteButton.setImage(image, forState: UIControlState.Normal)
             }
-            //profileThumbButton.imageView?.image = profileThumbView.image
             
             // These tags will help when the user clicks to figure out what row this belongs to.
-            //self.replyButton.tag = self.indexPathRow
+            self.replyButton.tag = self.indexPathRow
             self.retweetButton.tag = self.indexPathRow
             self.favoriteButton.tag = self.indexPathRow
-            //self.profileThumbButton.tag = self.indexPathRow
         }
         
         didSet(oldValue) {
@@ -115,6 +102,10 @@ class TweetTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
+        profileImage.layer.cornerRadius = 4
+        profileImage.clipsToBounds = true
+
         self.layoutIfNeeded()
     }
     

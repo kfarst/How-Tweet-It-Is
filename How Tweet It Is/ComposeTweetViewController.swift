@@ -12,7 +12,7 @@ import UIKit
     func tweetComposed(tweet: Tweet)
 }
 
-class ComposeTweetViewController: UIViewController {
+class ComposeTweetViewController: UIViewController, UITextViewDelegate {
     
     @IBOutlet weak var characterCountLabel: UILabel!
     @IBOutlet weak var tweetButton: UIButton!
@@ -36,9 +36,8 @@ class ComposeTweetViewController: UIViewController {
         
         Tweet.newTweet(text, inReplyToTweetId: inReplyToTweetId) { (tweet, error) -> () in
             if (error != nil) {
-                println("error while Tweeting! \(error)")
+                println("Tweeting error: \(error)")
             } else {
-                println("Tweeted!!!!!! \(tweet)")
                 NSNotificationCenter.defaultCenter().postNotificationName("NewTweetCreated", object: tweet)
                 
                 self.dismissViewControllerAnimated(true, completion: nil)
@@ -49,15 +48,16 @@ class ComposeTweetViewController: UIViewController {
     var user = User.currentUser
     var delegate: ComposeTweetDelegate!
     var replyToTweet: Tweet?
+    let twitterBlue = UIColor(hexString: "#55acee")
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
-        tweetButton.backgroundColor = UIColor(hexString: "#55acee")
+        tweetButton.backgroundColor = twitterBlue
         tweetButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         tweetButton.setTitleColor(UIColor.lightGrayColor(), forState: UIControlState.Highlighted)
-        tweetButton.layer.cornerRadius = 4.0
+        tweetButton.layer.cornerRadius = 4
         tweetButton.layer.masksToBounds = true
         tweetButton.clipsToBounds = false
         
@@ -75,8 +75,17 @@ class ComposeTweetViewController: UIViewController {
                 placeholderLabel.hidden = true
                 tweetText.text = "@\(handle)"
             }
+            
+            var text = tweetText.text!
+            var count = countElements(text)
+            
+            characterCountLabel.text = "\(140 - count)"
         }
         
+        profileImage.layer.cornerRadius = 4
+        profileImage.clipsToBounds = true
+
+        tweetText.delegate = self
         tweetText.becomeFirstResponder()
     }
     
@@ -96,9 +105,11 @@ class ComposeTweetViewController: UIViewController {
         
         if (count > 140) {
             tweetButton.enabled = false
+            tweetButton.backgroundColor = UIColor.grayColor()
             characterCountLabel.textColor = UIColor.redColor()
         } else {
             tweetButton.enabled = true
+            tweetButton.backgroundColor = twitterBlue
             characterCountLabel.textColor = UIColor.lightGrayColor()
         }
     }
@@ -107,10 +118,6 @@ class ComposeTweetViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    func textViewDidBeginEditing(textView: UITextView) {
-        placeholderLabel.hidden = true
     }
     
     func textViewDidEndEditing(textView: UITextView) {
