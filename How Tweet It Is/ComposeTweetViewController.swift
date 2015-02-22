@@ -40,9 +40,7 @@ class ComposeTweetViewController: UIViewController {
                 println("Tweeted!!!!!! \(tweet)")
                 NSNotificationCenter.defaultCenter().postNotificationName("NewTweetCreated", object: tweet)
                 
-                self.dismissViewControllerAnimated(true, completion: {
-                    
-                })
+                self.dismissViewControllerAnimated(true, completion: nil)
             }
         }
     }

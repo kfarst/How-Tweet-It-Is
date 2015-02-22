@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DashboardViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TweetDetailViewControllerDelegate {
+class DashboardViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TweetDetailViewControllerDelegate, TweetTableViewCellDelegate {
     
     @IBOutlet weak var tweetTableView: UITableView!
     
@@ -21,7 +21,6 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         var vc = sb.instantiateViewControllerWithIdentifier("ComposeTweetViewController") as ComposeTweetViewController
         self.presentViewController(vc, animated: true, completion: nil)
     }
-    
     
     @IBAction func profileImageTapped(sender: AnyObject) {
     }
@@ -47,11 +46,17 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
             }
         })
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "newTweetCreated:", name:"NewTweetCreated", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "newTweetCreated:", name: "NewTweetCreated", object: nil)
 
         initializeRefreshControl()
         tweetTableView.reloadData()
         // Do any additional setup after loading the view.
+    }
+    
+    func replyToTweet(tweet: Tweet!) {
+        var vc = sb.instantiateViewControllerWithIdentifier("ComposeTweetViewController") as ComposeTweetViewController
+        vc.replyToTweet = tweet
+        self.presentViewController(vc, animated: true, completion: nil)
     }
     
     func newTweetCreated(notification: NSNotification){
@@ -61,6 +66,7 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         self.tweets.insert(tweet, atIndex: 0)
         NSLog("Got the tweet in the main controller")
         self.tweetTableView.reloadData()
+        self.tweetTableView.scrollRectToVisible(CGRectMake(0, 0, 1, 1), animated: true)
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -68,6 +74,7 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         //cell.parentViewController = self
         cell.indexPathRow = indexPath.row
         cell.tweet = tweets[indexPath.row]
+        cell.delegate = self
         
         if (tweets.count - indexPath.row == 1/*&& !self.isInfiniteRefreshing*/) {
             //infiniteActivityIndicator.hidden = false

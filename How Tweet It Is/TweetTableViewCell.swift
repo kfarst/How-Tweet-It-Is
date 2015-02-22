@@ -8,6 +8,10 @@
 
 import UIKit
 
+@objc protocol TweetTableViewCellDelegate {
+    func replyToTweet(tweet: Tweet!)
+}
+
 class TweetTableViewCell: UITableViewCell {
     
     @IBOutlet weak var profileImage: UIImageView!
@@ -24,7 +28,10 @@ class TweetTableViewCell: UITableViewCell {
     @IBOutlet weak var retweetImage: UIImageView!
     
     var indexPathRow: Int = -1
+    var sb = UIStoryboard(name: "Main", bundle: nil)
+    var delegate: TweetTableViewCellDelegate!
     var tweet: Tweet! {
+        
         
         willSet(newTweet) {
             
@@ -94,7 +101,7 @@ class TweetTableViewCell: UITableViewCell {
             //profileThumbButton.imageView?.image = profileThumbView.image
             
             // These tags will help when the user clicks to figure out what row this belongs to.
-            self.replyButton.tag = self.indexPathRow
+            //self.replyButton.tag = self.indexPathRow
             self.retweetButton.tag = self.indexPathRow
             self.favoriteButton.tag = self.indexPathRow
             //self.profileThumbButton.tag = self.indexPathRow
@@ -104,6 +111,10 @@ class TweetTableViewCell: UITableViewCell {
             
         }
         
+    }
+    
+    @IBAction func replyToTweet(sender: AnyObject) {
+        delegate.replyToTweet(tweet)
     }
     
     override func awakeFromNib() {

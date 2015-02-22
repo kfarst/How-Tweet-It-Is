@@ -32,14 +32,11 @@ class TweetDetailViewController: UIViewController {
     @IBOutlet weak var retweetCount: UILabel!
     @IBOutlet weak var favoriteCount: UILabel!
     
-    
     @IBAction func onReply(sender: AnyObject) {
         var vc: ComposeTweetViewController = sb.instantiateViewControllerWithIdentifier("ComposeTweetViewController") as ComposeTweetViewController
         vc.replyToTweet = tweet
         self.presentViewController(vc, animated: true, completion: nil)
     }
-    
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
