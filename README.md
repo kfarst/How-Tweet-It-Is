@@ -28,4 +28,4 @@ Time spent: 20 hours
 
 ### Walkthrough
 
-![Video Walkthrough](...)
+![Video Walkthrough](http://i.imgur.com/V5IRvJn.gif)
