@@ -20,6 +20,7 @@ class ComposeTweetViewController: UIViewController {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var handleLabel: UILabel!
     @IBOutlet weak var tweetText: UITextView!
+    @IBOutlet weak var placeholderLabel: UILabel!
     
     @IBAction func cancelComposition(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -68,76 +69,53 @@ class ComposeTweetViewController: UIViewController {
         handleLabel.text = user?.screenName
 
         if replyToTweet == nil {
-            tweetText.text = "What do you want to say?"
+            placeholderLabel.hidden = false
         } else {
             if let handle = replyToTweet?.user?.screenName {
+                placeholderLabel.hidden = true
                 tweetText.text = "@\(handle)"
             }
         }
         
-        tweetText.textColor = UIColor.lightGrayColor()
-        
         tweetText.becomeFirstResponder()
-        
-        tweetText.selectedTextRange = tweetText.textRangeFromPosition(tweetText.beginningOfDocument, toPosition: tweetText.beginningOfDocument)
-        // Do any additional setup after loading the view.
     }
     
-    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+    func textViewDidChange(textView: UITextView) {
+        placeholderLabel.hidden = true
         
-        // Combine the textView text and the replacement text to
-        // create the updated text string
-        let currentText: NSString = tweetText.text
-        let updatedText = currentText.stringByReplacingCharactersInRange(range, withString: text)
+        var text = tweetText.text!
+        var count = countElements(text)
         
-        // If updated text view will be empty, add the placeholder
-        // and set the cursor to the beginning of the text view
-        if countElements(updatedText) == 0 {
-            
-            textView.text = "What do you want to say?"
-            textView.textColor = UIColor.lightGrayColor()
-            
-            textView.selectedTextRange = tweetText.textRangeFromPosition(tweetText.beginningOfDocument, toPosition: tweetText.beginningOfDocument)
-            
-            return false
-        }
-            
-            // Else if the text view's placeholder is showing and the
-            // length of the replacement string is greater than 0, clear
-            // the text view and set its color to black to prepare for
-            // the user's entry
-        else if tweetText.textColor == UIColor.lightGrayColor() && countElements(text) > 0 {
-            tweetText.text = nil
-            tweetText.textColor = UIColor.blackColor()
+        characterCountLabel.text = "\(140 - count)"
+        
+        if (count == 0) {
+            tweetButton.enabled = false
+        } else {
+            tweetButton.enabled = true
         }
         
-        return true
+        if (count > 140) {
+            tweetButton.enabled = false
+            characterCountLabel.textColor = UIColor.redColor()
+        } else {
+            tweetButton.enabled = true
+            characterCountLabel.textColor = UIColor.lightGrayColor()
+        }
     }
     
-    func textViewDidChangeSelection(textView: UITextView) {
-        if self.view.window != nil {
-            if textView.textColor == UIColor.lightGrayColor() {
-                textView.selectedTextRange = textView.textRangeFromPosition(textView.beginningOfDocument, toPosition: textView.beginningOfDocument)
-            }
-        }
-    }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     func textViewDidBeginEditing(textView: UITextView) {
-        if textView.textColor == UIColor.lightGrayColor() {
-            textView.text = nil
-            textView.textColor = UIColor.blackColor()
-        }
+        placeholderLabel.hidden = true
     }
     
     func textViewDidEndEditing(textView: UITextView) {
-        if textView.text.isEmpty {
-            textView.text = "Placeholder"
-            textView.textColor = UIColor.lightGrayColor()
+        if tweetText.text.isEmpty {
+            placeholderLabel.hidden = false
         }
     }
 

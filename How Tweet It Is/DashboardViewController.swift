@@ -22,11 +22,89 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         self.presentViewController(vc, animated: true, completion: nil)
     }
     
-    @IBAction func profileImageTapped(sender: AnyObject) {
-    }
-    
     @IBAction func logoutUser(sender: AnyObject) {
         User.currentUser?.logout()
+    }
+    
+    @IBAction func replyToTweet(sender: AnyObject) {
+        var indexPathRow = sender.tag
+        var vc = sb.instantiateViewControllerWithIdentifier("ComposeTweetViewController") as ComposeTweetViewController
+        
+        vc.replyToTweet = self.tweets[indexPathRow];
+        
+        self.presentViewController(vc, animated: true, completion: nil)
+    }
+    
+    @IBAction func retweetTweet(sender: AnyObject) {
+        var indexPathRow = sender.tag
+        var tweet = tweets[indexPathRow]
+        
+        // TODO make it more realtime and show error if it fails.
+        tweet.retweeted = 1
+        tweet.retweetCount! += 1
+        
+        var cell = self.tweetTableView.cellForRowAtIndexPath(NSIndexPath(forRow: indexPathRow, inSection: 0)) as TweetTableViewCell
+        
+        cell.tweet = tweet
+        
+        Tweet.retweet(tweet.id!, completion: {(error: NSError?) -> Void in
+            if (error != nil) {
+                println("error while retweeting! \(error)")
+                tweet.retweeted = 0
+                tweet.retweetCount! -= 1
+                var cell = self.tweetTableView.cellForRowAtIndexPath(NSIndexPath(forRow: indexPathRow, inSection: 0)) as TweetTableViewCell
+                cell.tweet = tweet
+                
+            } else {
+                println("retweeted!!!!!  while retweeting!")
+                self.tweets[indexPathRow] = tweet
+            }
+        })
+    }
+    
+    @IBAction func favoriteTweet(sender: AnyObject) {
+        var indexPathRow = sender.tag
+        var tweet = tweets[indexPathRow]
+
+        if (tweet.favorited == 1) {
+            tweet.favorited = 0
+            tweet.favoriteCount! -= 1
+            
+            var cell = self.tweetTableView.cellForRowAtIndexPath(NSIndexPath(forRow: indexPathRow, inSection: 0)) as TweetTableViewCell
+            
+            cell.tweet = tweet
+            
+            Tweet.unfavorite(tweet.id!, completion: {(error: NSError?) -> Void in
+                if (error != nil) {
+                    println("error while unfavoriting! \(error)")
+                    tweet.favorited = 1
+                    tweet.favoriteCount! += 1
+                    cell.tweet = tweet
+                } else {
+                    println("unfavorited!!!!!")
+                    self.tweets[indexPathRow] = tweet
+                }
+            })
+        } else {
+            tweet.favorited = 1
+            tweet.favoriteCount! += 1
+            
+            var cell = self.tweetTableView.cellForRowAtIndexPath(NSIndexPath(forRow: indexPathRow, inSection: 0)) as TweetTableViewCell
+            
+            cell.tweet = tweet
+            
+            Tweet.favorite(tweet.id!, completion: {(error: NSError?) -> Void in
+                if (error != nil) {
+                    println("error while favoriting! \(error)")
+                    tweet.favorited = 0
+                    tweet.favoriteCount! -= 1
+                    cell.tweet = tweet
+                } else {
+                    println("favorited!!!!!")
+                    self.tweets[indexPathRow] = tweet
+                }
+            })
+        }
     }
     
     override func viewDidLoad() {
@@ -34,7 +112,7 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         tweetTableView.delegate = self
         tweetTableView.dataSource = self
         
-        tweetTableView.estimatedRowHeight = 90.0
+        tweetTableView.estimatedRowHeight = 95.0
         tweetTableView.rowHeight = UITableViewAutomaticDimension
         
         Tweet.getHomeTimeline(nil, completion: {(tweets: [Tweet]?, error: NSError?) -> Void in
@@ -55,7 +133,9 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func replyToTweet(tweet: Tweet!) {
         var vc = sb.instantiateViewControllerWithIdentifier("ComposeTweetViewController") as ComposeTweetViewController
+        
         vc.replyToTweet = tweet
+        
         self.presentViewController(vc, animated: true, completion: nil)
     }
     

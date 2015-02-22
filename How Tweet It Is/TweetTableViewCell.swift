@@ -113,10 +113,6 @@ class TweetTableViewCell: UITableViewCell {
         
     }
     
-    @IBAction func replyToTweet(sender: AnyObject) {
-        delegate.replyToTweet(tweet)
-    }
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
