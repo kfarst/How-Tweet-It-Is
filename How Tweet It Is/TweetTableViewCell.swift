@@ -113,6 +113,11 @@ class TweetTableViewCell: UITableViewCell {
         
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.layoutIfNeeded()
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

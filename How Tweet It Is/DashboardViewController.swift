@@ -128,7 +128,6 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
 
         initializeRefreshControl()
         tweetTableView.reloadData()
-        // Do any additional setup after loading the view.
     }
     
     func replyToTweet(tweet: Tweet!) {

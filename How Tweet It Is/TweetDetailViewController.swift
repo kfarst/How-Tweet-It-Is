@@ -31,11 +31,65 @@ class TweetDetailViewController: UIViewController {
     @IBOutlet weak var retweetButton: UIButton!
     @IBOutlet weak var retweetCount: UILabel!
     @IBOutlet weak var favoriteCount: UILabel!
+    @IBOutlet weak var createdAtLabel: UILabel!
     
     @IBAction func onReply(sender: AnyObject) {
         var vc: ComposeTweetViewController = sb.instantiateViewControllerWithIdentifier("ComposeTweetViewController") as ComposeTweetViewController
         vc.replyToTweet = tweet
         self.presentViewController(vc, animated: true, completion: nil)
+    }
+    
+    @IBAction func onRetweet(sender: AnyObject) {
+        self.tweet!.retweeted = 1
+        self.tweet!.retweetCount! += 1
+        self.retweetButton.enabled = false
+        self.viewDidLoad()
+        
+        Tweet.retweet(self.tweet!.id!, completion: {(error: NSError?) -> Void in
+            if (error != nil) {
+                println("error while retweeting! \(error)")
+                self.tweet!.retweeted = 0
+                self.tweet!.retweetCount! -= 1
+                self.retweetButton.enabled = true
+                self.viewDidLoad()
+            } else {
+                println("retweeted!!!!!  while retweeting!")
+            }
+        })
+
+    }
+    
+    @IBAction func onFavorite(sender: AnyObject) {
+        if (self.tweet!.favorited == 0) {
+            self.tweet!.favorited = 1
+            self.tweet!.favoriteCount! += 1
+            self.viewDidLoad()
+            Tweet.favorite(self.tweet!.id!, completion: {(error: NSError?) -> Void in
+                if (error != nil) {
+                    println("error while favoriting! \(error)")
+                    self.tweet!.favorited = 0
+                    self.tweet!.favoriteCount! -= 1
+                    self.viewDidLoad()
+                } else {
+                    println("Favorited!!!!!!")
+                }
+            })
+        } else {
+            self.tweet!.favorited = 0
+            self.tweet!.favoriteCount! -= 1
+            self.viewDidLoad()
+            
+            Tweet.unfavorite(self.tweet!.id!, completion: {(error: NSError?) -> Void in
+                if (error != nil) {
+                    println("error while unfavoriting! \(error)")
+                    self.tweet!.favorited = 0
+                    self.tweet!.favoriteCount! -= 1
+                    self.viewDidLoad()
+                } else {
+                    println("unFavorited!!!!!!")
+                }
+            })
+        }
     }
 
     override func viewDidLoad() {
@@ -46,6 +100,10 @@ class TweetDetailViewController: UIViewController {
         nameLabel.text = tweet!.user?.name!
         handleLabel.text = "@\(tweet!.user!.screenName!)"
         tweetLabel.text = tweet!.text!
+        
+        var dateFormat = NSDateFormatter()
+        dateFormat.dateFormat = "MM/dd/yy, hh:mm a"
+        createdAtLabel.text = dateFormat.stringFromDate(tweet!.createdAt!)
         
         if (tweet!.favoriteCount > 0) {
             self.favoriteCount.hidden = false
