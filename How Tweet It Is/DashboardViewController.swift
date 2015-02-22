@@ -115,10 +115,13 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         tweetTableView.estimatedRowHeight = 95.0
         tweetTableView.rowHeight = UITableViewAutomaticDimension
         
+        SVProgressHUD.show()
+
         Tweet.getHomeTimeline(nil, completion: {(tweets: [Tweet]?, error: NSError?) -> Void in
             if (tweets != nil) {
                 self.tweets = tweets!
                 self.tweetTableView.reloadData()
+                SVProgressHUD.dismiss()
             } else {
                 println("Failed to get the tweets \(error!)")
             }

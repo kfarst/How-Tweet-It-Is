@@ -51,7 +51,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="binarynerd retweeted" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X0m-JL-hhS">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="binarynerd retweeted" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X0m-JL-hhS">
                                                     <rect key="frame" x="57" y="0.0" width="118" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="09R-Ra-MTN"/>
@@ -152,7 +152,7 @@
                                                 <constraint firstItem="6bp-nM-8fl" firstAttribute="top" secondItem="nEW-pl-VDI" secondAttribute="bottom" constant="4" id="9bU-de-iFi"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="nEW-pl-VDI" secondAttribute="trailing" constant="8" id="Fed-XF-oXd"/>
                                                 <constraint firstItem="nEW-pl-VDI" firstAttribute="bottom" secondItem="kS0-sh-5mP" secondAttribute="bottom" constant="-22" id="H5d-0x-bMe"/>
-                                                <constraint firstItem="xHS-L8-fDO" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="5yp-OE-CzU" secondAttribute="trailing" constant="7" id="HK0-0S-Hyr"/>
+                                                <constraint firstItem="xHS-L8-fDO" firstAttribute="leading" secondItem="5yp-OE-CzU" secondAttribute="trailing" constant="7" id="HK0-0S-Hyr"/>
                                                 <constraint firstItem="X0m-JL-hhS" firstAttribute="centerY" secondItem="RlH-vc-R9y" secondAttribute="centerY" id="HTR-b1-waZ"/>
                                                 <constraint firstItem="NO7-cR-w0R" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="xHS-L8-fDO" secondAttribute="leading" constant="5" id="HjP-pW-4d7"/>
                                                 <constraint firstItem="X0m-JL-hhS" firstAttribute="leading" secondItem="RlH-vc-R9y" secondAttribute="leading" constant="18" id="Igq-AW-rPn"/>
