@@ -612,8 +612,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="twitterLogin:" destination="j3C-hh-7ZJ" eventType="touchUpInside" id="DTa-JO-K3z"/>
-                                    <segue destination="gYn-JF-ygw" kind="modal" identifier="DashboardSegue" id="lVw-uU-zDw"/>
+                                    <action selector="twitterLogin:" destination="j3C-hh-7ZJ" eventType="touchUpInside" id="e6c-og-k1t"/>
                                 </connections>
                             </button>
                         </subviews>

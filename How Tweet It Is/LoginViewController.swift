@@ -10,6 +10,8 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
+    var sb = UIStoryboard(name: "Main", bundle: nil)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -20,7 +22,8 @@ class LoginViewController: UIViewController {
             (user: User?, error: NSError?) in
 
             if user != nil {
-                self.performSegueWithIdentifier("DashboardSegue", sender: self)
+                var dashboardController = self.sb.instantiateViewControllerWithIdentifier("NavigationController") as UINavigationController
+                self.presentViewController(dashboardController, animated: true, completion: nil)
             } else {
                println(error)
             }
