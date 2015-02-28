@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.userLoggedOut), name: NSNotification.Name(rawValue: userDidLogoutNotification), object: nil)
         
         if (User.currentUser != nil) {
-            let dashboardController = storyboard.instantiateViewController(withIdentifier: "NavigationController") as! UINavigationController
+            var dashboardController = storyboard.instantiateViewControllerWithIdentifier("MenuViewController") as MenuViewController
             window?.rootViewController = dashboardController
         }
         

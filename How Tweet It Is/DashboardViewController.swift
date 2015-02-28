@@ -16,6 +16,7 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
     var refreshControl: UIRefreshControl!
     var sb = UIStoryboard(name: "Main", bundle: nil)
     var selectedTableRow = -1
+    var timelineType = "dashboard"
     
     @IBAction func composeTweet(_ sender: AnyObject) {
         let vc = sb.instantiateViewController(withIdentifier: "ComposeTweetViewController") as! ComposeTweetViewController
@@ -112,22 +113,34 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         
         SVProgressHUD.show()
 
-        Tweet.getHomeTimeline(nil, completion: {(tweets: [Tweet]?, error: Error?) -> Void in
-            if (tweets != nil) {
-                self.tweets = tweets!
-                self.tweetTableView.reloadData()
-                SVProgressHUD.dismiss()
-            } else {
-                print("Tweets fetching error: \(error!)")
-            }
-        })
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(DashboardViewController.newTweetCreated(_:)), name: NSNotification.Name(rawValue: "NewTweetCreated"), object: nil)
+        if self.timelineType == "dashboard" {
+            Tweet.getHomeTimeline(nil, completion: {(tweets: [Tweet]?, error: Error?) -> Void in
+                if (tweets != nil) {
+                    self.tweets = tweets!
+                    self.tweetTableView.reloadData()
+                    SVProgressHUD.dismiss()
+                } else {
+                    println("Tweets fetching error: \(error!)")
+                }
+            })
+        } else if self.timelineType == "mentions" {
+            Tweet.getMentionsTimeline(nil, completion: {(tweets: [Tweet]?, error: Error?) -> Void in
+                if (tweets != nil) {
+                    self.tweets = tweets!
+                    self.tweetTableView.reloadData()
+                    SVProgressHUD.dismiss()
+                } else {
+                    println("Mention tweets fetching error: \(error!)")
+                }
+            })
+        }
+    
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "newTweetCreated:", name: "NewTweetCreated", object: nil)
 
         initializeRefreshControl()
         tweetTableView.reloadData()
     }
-    
+
     func replyToTweet(tweet: Tweet!) {
         let vc = sb.instantiateViewController(withIdentifier: "ComposeTweetViewController") as! ComposeTweetViewController
         

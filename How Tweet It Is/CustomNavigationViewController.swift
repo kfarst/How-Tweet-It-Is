@@ -17,9 +17,6 @@ class CustomNavigationViewController: UINavigationController {
         self.navigationBar.barStyle = UIBarStyle.blackTranslucent
         self.navigationBar.barTintColor = UIColor(hexString: "#55acee")
         self.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
-        
-        let image = UIImage(named: "twitter.png")
-        self.navigationItem.titleView = UIImageView(image: image)
     }
 
     override func didReceiveMemoryWarning() {
