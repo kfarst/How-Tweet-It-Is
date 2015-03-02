@@ -103,6 +103,21 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+    @IBAction func profileImageTapped(sender: AnyObject) {
+        var indexPathRow = sender.tag
+        var tweet = tweets[indexPathRow]
+        var profileNavVC = sb.instantiateViewControllerWithIdentifier("ProfileNavigationController") as CustomNavigationViewController
+        var profileVC: ProfileViewController = profileNavVC.childViewControllers[0] as ProfileViewController
+        
+        profileNavVC.navigationBar.barStyle = UIBarStyle.BlackTranslucent
+        profileNavVC.navigationBar.barTintColor = UIColor(hexString: "#55acee")
+        profileNavVC.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+
+        profileVC.user = tweet.user
+        
+        self.presentViewController(profileNavVC, animated: true, completion: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tweetTableView.delegate = self

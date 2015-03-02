@@ -23,6 +23,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     var tweets: [Tweet] = []
     var refreshControl: UIRefreshControl!
     
+    @IBAction func homeButtonTapped(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -48,6 +52,26 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 println("Tweets fetching error: \(error!)")
             }
         })
+        
+        nameLabel.text =  user!.name!
+        handleLabel.text = "@\(user!.screenName!)"
+        
+        if let url = user!.profileImageUrl {
+            profileImage.setImageWithURL(NSURL(string: url))
+            profileImage.layer.cornerRadius = 4
+            profileImage.layer.masksToBounds = true
+            profileImage.clipsToBounds = true
+        }
+        
+        if let url = user!.backgroundImageUrl {
+            backgroundImage.setImageWithURL(NSURL(string: url))
+        } else {
+            backgroundImage.image = UIImage(named: "background-image.jpg")
+        }
+        
+        followersLabel.text = "\(user!.numberOfFollowers!)"
+        followersLabel.text = "\(user!.numberFollowing!)"
+        tweetCountLabel.text = "\(user!.numberOfTweets!)"
         
         initializeRefreshControl()
         tweetTableView.reloadData()

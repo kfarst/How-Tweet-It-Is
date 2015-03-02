@@ -20,10 +20,19 @@ class MenuViewController: UIViewController {
     @IBAction func menuButtonTapped(sender: UIButton) {
         if sender == timelineButton {
             self.activeViewController = self.viewControllers!["dashboard"]
+            timelineButton.setTitleColor(twitterBlue, forState: .Normal)
+            mentionsButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+            profileButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         } else if sender == mentionsButton {
             self.activeViewController = self.viewControllers!["mentions"]
+            timelineButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+            mentionsButton.setTitleColor(twitterBlue, forState: .Normal)
+            profileButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         } else {
             self.activeViewController = self.viewControllers!["profile"]
+            timelineButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+            mentionsButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+            profileButton.setTitleColor(twitterBlue, forState: .Normal)
         }
         
         closeMenu()
@@ -62,6 +71,7 @@ class MenuViewController: UIViewController {
         closeMenu()
     }
     
+    let twitterBlue = UIColor(hexString: "#55acee")
     var sb = UIStoryboard(name: "Main", bundle: nil)
     var menuOpen = false
     var viewControllers: [String: UIViewController]?
@@ -95,6 +105,7 @@ class MenuViewController: UIViewController {
         
         self.viewControllers = ["dashboard": dashboardVC, "mentions": mentionsVC, "profile": profileVC]
         self.activeViewController = self.viewControllers!["dashboard"]
+        timelineButton.setTitleColor(twitterBlue, forState: .Normal)
     }
 
     override func didReceiveMemoryWarning() {
