@@ -199,6 +199,7 @@
                                             <outlet property="handleLabel" destination="xHS-L8-fDO" id="Vwo-jp-hCp"/>
                                             <outlet property="nameLabel" destination="5yp-OE-CzU" id="rx2-BU-11C"/>
                                             <outlet property="profileImage" destination="JQW-ZX-Kmu" id="Mta-J2-Qiv"/>
+                                            <outlet property="profileImageButton" destination="wf1-Pf-l7s" id="uSR-tB-gqe"/>
                                             <outlet property="replyButton" destination="hLg-bD-lFM" id="Xzs-I9-4bU"/>
                                             <outlet property="retweetButton" destination="3Qz-wN-FSo" id="Tjr-f2-GMJ"/>
                                             <outlet property="retweetCountLabel" destination="6bp-nM-8fl" id="MO2-Qq-kgq"/>

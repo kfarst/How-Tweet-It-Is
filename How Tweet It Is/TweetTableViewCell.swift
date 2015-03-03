@@ -39,6 +39,7 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 class TweetTableViewCell: UITableViewCell {
     
     @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var profileImageButton: UIButton!
     @IBOutlet weak var favoriteCountLabel: UILabel!
     @IBOutlet weak var retweetCountLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!

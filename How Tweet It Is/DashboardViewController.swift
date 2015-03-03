@@ -185,6 +185,11 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
             })
         }
         
+        cell.profileImageButton.tag = indexPath.row
+        cell.replyButton.tag = indexPath.row
+        cell.retweetButton.tag = indexPath.row
+        cell.favoriteButton.tag = indexPath.row
+        
         return cell
     }
     
