@@ -24,7 +24,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     var refreshControl: UIRefreshControl!
     
     @IBAction func homeButtonTapped(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
     override func viewDidLoad() {
@@ -43,13 +43,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.user = User.currentUser
         }
         
-        Tweet.getUserTimeline(user!.screenName!, completion: {(tweets: [Tweet]?, error: NSError?) -> Void in
+        Tweet.getUserTimeline(user!.screenName!, completion: {(tweets: [Tweet]?, error: Error?) -> Void in
             if (tweets != nil) {
                 self.tweets = tweets!
                 self.tweetTableView.reloadData()
                 SVProgressHUD.dismiss()
             } else {
-                println("Tweets fetching error: \(error!)")
+                print("Tweets fetching error: \(error!)")
             }
         })
         
@@ -57,16 +57,16 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         handleLabel.text = "@\(user!.screenName!)"
         
         if let url = user!.profileImageUrl {
-            profileImage.setImageWithURL(NSURL(string: url))
+            profileImage.setImageWith(URL(string: url))
             profileImage.layer.cornerRadius = 4
             profileImage.layer.masksToBounds = true
             profileImage.clipsToBounds = true
         }
         
         if let url = user!.backgroundImageUrl {
-            backgroundImage.setImageWithURL(NSURL(string: url))
+            backgroundImage.setImageWith(URL(string: url))
         } else {
-            backgroundImage.image = UIImage(named: "background-image.jpg")
+            backgroundImage.image = UIImage(named: "background-image")
         }
         
         followersLabel.text = "\(user!.numberOfFollowers!)"
@@ -82,15 +82,15 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         // Dispose of any resources that can be recreated.
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("TweetTableViewCell", forIndexPath: indexPath) as
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TweetTableViewCell", for: indexPath) as!
         TweetTableViewCell
         
         cell.indexPathRow = indexPath.row
         cell.tweet = tweets[indexPath.row]
         
         if (tweets.count - indexPath.row == 1) {
-            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), {
+            DispatchQueue.global().async(execute: {
                 self.loadMoreTweets()
             })
         }
@@ -98,14 +98,14 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         return cell
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tweets.count
     }
     
     func initializeRefreshControl() {
         self.refreshControl = UIRefreshControl()
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refersh")
-        self.refreshControl.addTarget(self, action: "loadMoreTweets", forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.addTarget(self, action: #selector(loadMoreTweets), for: UIControlEvents.valueChanged)
         self.tweetTableView.addSubview(refreshControl)
     }
     
@@ -118,9 +118,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 self.tweets += newTweets!
                 self.tweetTableView.reloadData()
             } else {
-                println("Tweets fetching error: \(error!)")
+                print("Tweets fetching error: \(error!)")
             }
-        })
+        } as! ([Tweet]?, Error?) -> ())
         
         self.refreshControl.endRefreshing()
     }

@@ -91,11 +91,10 @@ class Tweet: NSObject {
     
     class func getMentionsTimeline(_ params: NSDictionary?, completion: @escaping (_ tweets: [Tweet]?, _ error: Error?) -> ()) {
         TwitterClient.sharedInstance.get("1.1/statuses/mentions_timeline.json", parameters: params,
-            success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+            success: { (operation: AFHTTPRequestOperation?, response: Any?) -> Void in
                 let tweets = Tweet.tweetsWithArray(response as! [NSDictionary])
                 completion(tweets, nil)
-                
-            } as! (AFHTTPRequestOperation?, Any?) -> Void, failure: { (operation: AFHTTPRequestOperation!, error: Error!) -> Void in
+            }, failure: { (operation: AFHTTPRequestOperation!, error: Error!) -> Void in
                 completion(nil, error)
             }
         )
@@ -103,10 +102,10 @@ class Tweet: NSObject {
     
     class func getUserTimeline(_ screenName: String, completion: @escaping (_ tweets: [Tweet]?, _ error: Error?) -> ()) {
         TwitterClient.sharedInstance.get("1.1/statuses/user_timeline.json?screen_name=\(screenName)", parameters: nil,
-            success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+            success: { (operation: AFHTTPRequestOperation?, response: Any?) -> Void in
                 let tweets = Tweet.tweetsWithArray(response as! [NSDictionary])
                 completion(tweets, nil)
-            } as! (AFHTTPRequestOperation?, Any?) -> Void, failure: { (operation: AFHTTPRequestOperation!, error: Error!) -> Void in
+            }, failure: { (operation: AFHTTPRequestOperation!, error: Error!) -> Void in
                 completion(nil, error)
             }
         )
@@ -114,7 +113,7 @@ class Tweet: NSObject {
     
     class func retweet(_ id: String, completion: @escaping (_ error: Error?) -> ()) {
         TwitterClient.sharedInstance.post("1.1/statuses/retweet/\(id).json", parameters: nil,
-            success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+            success: { (operation: AFHTTPRequestOperation?, response: Any?) -> Void in
                 completion(nil)
                 
             } as! (AFHTTPRequestOperation?, Any?) -> Void, failure: { (operation: AFHTTPRequestOperation!, error: Error!) -> Void in
@@ -125,10 +124,10 @@ class Tweet: NSObject {
     
     class func favorite(_ id: String, completion: @escaping (_ error: Error?) -> ()) {
         TwitterClient.sharedInstance.post("1.1/favorites/create.json?id=\(id)", parameters: nil,
-            success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+            success: { (operation: AFHTTPRequestOperation?, response: Any?) -> Void in
                 completion(nil)
                 
-            } as! (AFHTTPRequestOperation?, Any?) -> Void, failure: { (operation: AFHTTPRequestOperation!, error: Error!) -> Void in
+            }, failure: { (operation: AFHTTPRequestOperation!, error: Error!) -> Void in
                 completion(error)
             }
         )
@@ -136,10 +135,10 @@ class Tweet: NSObject {
     
     class func unfavorite(_ id: String, completion: @escaping (_ error: Error?) -> ()) {
         TwitterClient.sharedInstance.post("1.1/favorites/destroy.json?id=\(id)", parameters: nil,
-            success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+            success: { (operation: AFHTTPRequestOperation?, response: Any?) -> Void in
                 completion(nil)
                 
-            } as! (AFHTTPRequestOperation?, Any?) -> Void, failure: { (operation: AFHTTPRequestOperation!, error: Error!) -> Void in
+            }, failure: { (operation: AFHTTPRequestOperation!, error: Error!) -> Void in
                 completion(error)
             }
         )
@@ -153,7 +152,7 @@ class Tweet: NSObject {
             params["in_reply_to_status_id"] = replyToTweetId
         }
         print(params)
-        TwitterClient.sharedInstance.post("1.1/statuses/update.json", parameters: params, success: { (operation: AFHTTPRequestOperation!, response: Any!) -> Void in
+        TwitterClient.sharedInstance.post("1.1/statuses/update.json", parameters: params, success: { (operation: AFHTTPRequestOperation?, response: Any?) -> Void in
             let tweet = Tweet(dictionary: response as! NSDictionary)
             completion(tweet, nil)
         }) { (operation: AFHTTPRequestOperation?, error: Error?) in

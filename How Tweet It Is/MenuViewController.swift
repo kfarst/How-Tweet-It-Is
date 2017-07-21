@@ -17,42 +17,42 @@ class MenuViewController: UIViewController {
     @IBOutlet weak var mentionsButton: UIButton!
     @IBOutlet weak var profileButton: UIButton!
     
-    @IBAction func menuButtonTapped(sender: UIButton) {
+    @IBAction func menuButtonTapped(_ sender: UIButton) {
         if sender == timelineButton {
             self.activeViewController = self.viewControllers!["dashboard"]
-            timelineButton.setTitleColor(twitterBlue, forState: .Normal)
-            mentionsButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-            profileButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+            timelineButton.setTitleColor(twitterBlue, for: .normal)
+            mentionsButton.setTitleColor(UIColor.white, for: .normal)
+            profileButton.setTitleColor(UIColor.white, for: .normal)
         } else if sender == mentionsButton {
             self.activeViewController = self.viewControllers!["mentions"]
-            timelineButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-            mentionsButton.setTitleColor(twitterBlue, forState: .Normal)
-            profileButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+            timelineButton.setTitleColor(UIColor.white, for: .normal)
+            mentionsButton.setTitleColor(twitterBlue, for: .normal)
+            profileButton.setTitleColor(UIColor.white, for: .normal)
         } else {
             self.activeViewController = self.viewControllers!["profile"]
-            timelineButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-            mentionsButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-            profileButton.setTitleColor(twitterBlue, forState: .Normal)
+            timelineButton.setTitleColor(UIColor.white, for: .normal)
+            mentionsButton.setTitleColor(UIColor.white, for: .normal)
+            profileButton.setTitleColor(twitterBlue, for: .normal)
         }
         
         closeMenu()
     }
     
     
-    @IBAction func swipeRight(sender: UISwipeGestureRecognizer) {
+    @IBAction func swipeRight(_ sender: UISwipeGestureRecognizer) {
         if menuOpen == false {
             self.menuOpen = true
-            self.contentViewTapRecognizer.enabled = true
+            self.contentViewTapRecognizer.isEnabled = true
             
-            UIView.animateWithDuration(0.35, animations: {
+            UIView.animate(withDuration: 0.35, animations: {
                 var rotationAndPerspectiveTransform: CATransform3D = CATransform3DIdentity;
                 rotationAndPerspectiveTransform.m34 = -1.0 / 800.0;
                 self.contentView.layer.zPosition = 100
                 rotationAndPerspectiveTransform = CATransform3DTranslate(rotationAndPerspectiveTransform, self.contentView.frame.size.width / 2 * 0.4, 0.0, 0.0);
                 rotationAndPerspectiveTransform = CATransform3DScale(rotationAndPerspectiveTransform, 0.6, 0.6, 0.6);
-                rotationAndPerspectiveTransform = CATransform3DRotate(rotationAndPerspectiveTransform, CGFloat(-45.0 * M_PI / 180.0), 0.0, 1.0, 0.0)
+                rotationAndPerspectiveTransform = CATransform3DRotate(rotationAndPerspectiveTransform, CGFloat(-45.0 * .pi / 180.0), 0.0, 1.0, 0.0)
                 
-                UIView.animateWithDuration(1.0, animations: { () -> Void in
+                UIView.animate(withDuration: 1.0, animations: { () -> Void in
                     self.contentView.layer.transform = rotationAndPerspectiveTransform
                 })
                 
@@ -61,13 +61,13 @@ class MenuViewController: UIViewController {
         }
     }
     
-    @IBAction func swipeLeft(sender: UISwipeGestureRecognizer) {
-        if (sender.state == .Ended) {
+    @IBAction func swipeLeft(_ sender: UISwipeGestureRecognizer) {
+        if (sender.state == .ended) {
             closeMenu()
         }
     }
     
-    @IBAction func viewTapped(sender: UITapGestureRecognizer) {
+    @IBAction func viewTapped(_ sender: UITapGestureRecognizer) {
         closeMenu()
     }
     
@@ -78,16 +78,16 @@ class MenuViewController: UIViewController {
     var activeViewController: UIViewController? {
         didSet(oldViewControllerOrNil) {
             if let oldVC = oldViewControllerOrNil {
-                oldVC.willMoveToParentViewController(nil)
+                oldVC.willMove(toParentViewController: nil)
                 oldVC.view.removeFromSuperview()
                 oldVC.removeFromParentViewController()
             }
             if let newVC =  activeViewController {
                 self.addChildViewController(newVC)
-                newVC.view.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+                newVC.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
                 newVC.view.frame = self.contentView.bounds
                 self.contentView.addSubview(newVC.view)
-                newVC.didMoveToParentViewController(self)
+                newVC.didMove(toParentViewController: self)
             }
         }
     }
@@ -96,16 +96,16 @@ class MenuViewController: UIViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        var dashboardVC = sb.instantiateViewControllerWithIdentifier("TimelineNavController") as CustomNavigationViewController
+        let dashboardVC = sb.instantiateViewController(withIdentifier: "TimelineNavController") as! CustomNavigationViewController
         
-        var mentionsVC = sb.instantiateViewControllerWithIdentifier("TimelineNavController") as CustomNavigationViewController
-        (mentionsVC.viewControllers[0] as DashboardViewController).timelineType = "mentions"
+        let mentionsVC = sb.instantiateViewController(withIdentifier: "TimelineNavController") as! CustomNavigationViewController
+        (mentionsVC.viewControllers[0] as! DashboardViewController).timelineType = "mentions"
         
-        var profileVC = sb.instantiateViewControllerWithIdentifier("ProfileViewController") as ProfileViewController
+        let profileVC = sb.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
         
         self.viewControllers = ["dashboard": dashboardVC, "mentions": mentionsVC, "profile": profileVC]
         self.activeViewController = self.viewControllers!["dashboard"]
-        timelineButton.setTitleColor(twitterBlue, forState: .Normal)
+        timelineButton.setTitleColor(twitterBlue, for: .normal)
     }
 
     override func didReceiveMemoryWarning() {
@@ -116,9 +116,9 @@ class MenuViewController: UIViewController {
     func closeMenu() {
         if (menuOpen) {
             self.menuOpen = false
-            self.contentViewTapRecognizer.enabled = false
+            self.contentViewTapRecognizer.isEnabled = false
             
-            UIView.animateWithDuration(0.35, animations: {
+            UIView.animate(withDuration: 0.35, animations: {
                 var rotationAndPerspectiveTransform: CATransform3D = CATransform3DIdentity;
                 rotationAndPerspectiveTransform.m34 = -1.0 / 800.0;
                 self.contentView.layer.zPosition = 100
@@ -126,7 +126,7 @@ class MenuViewController: UIViewController {
                 rotationAndPerspectiveTransform = CATransform3DScale(rotationAndPerspectiveTransform, 1.0, 1.0, 1.0);
                 rotationAndPerspectiveTransform = CATransform3DRotate(rotationAndPerspectiveTransform, 0.0, 0.0, 1.0, 0.0)
                 
-                UIView.animateWithDuration(1.0, animations: { () -> Void in
+                UIView.animate(withDuration: 1.0, animations: { () -> Void in
                     self.contentView.layer.transform = rotationAndPerspectiveTransform
                 })
 

@@ -22,18 +22,6 @@
 		259734AD1A942ED500D2C714 /* TweetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259734AC1A942ED500D2C714 /* TweetTableViewCell.swift */; };
 		259734B41A957E5900D2C714 /* ComposeTweetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259734B31A957E5900D2C714 /* ComposeTweetViewController.swift */; };
 		25BBF4631A97E29400EAAF91 /* TweetDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BBF4621A97E29400EAAF91 /* TweetDetailViewController.swift */; };
-		25C9FDDC1F219DCC00FBB015 /* favorite-dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C9FDD01F219DCC00FBB015 /* favorite-dark.png */; };
-		25C9FDDD1F219DCC00FBB015 /* favorite-light.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C9FDD11F219DCC00FBB015 /* favorite-light.png */; };
-		25C9FDDE1F219DCC00FBB015 /* favorite-on.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C9FDD21F219DCC00FBB015 /* favorite-on.png */; };
-		25C9FDDF1F219DCC00FBB015 /* hamburger.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C9FDD31F219DCC00FBB015 /* hamburger.png */; };
-		25C9FDE01F219DCC00FBB015 /* logout.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C9FDD41F219DCC00FBB015 /* logout.png */; };
-		25C9FDE11F219DCC00FBB015 /* refresh-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C9FDD51F219DCC00FBB015 /* refresh-arrow.png */; };
-		25C9FDE21F219DCC00FBB015 /* refresh-arrowsmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C9FDD61F219DCC00FBB015 /* refresh-arrowsmall.png */; };
-		25C9FDE31F219DCC00FBB015 /* reply-dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C9FDD71F219DCC00FBB015 /* reply-dark.png */; };
-		25C9FDE41F219DCC00FBB015 /* reply-light.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C9FDD81F219DCC00FBB015 /* reply-light.png */; };
-		25C9FDE51F219DCC00FBB015 /* retweet-dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C9FDD91F219DCC00FBB015 /* retweet-dark.png */; };
-		25C9FDE61F219DCC00FBB015 /* retweet-light.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C9FDDA1F219DCC00FBB015 /* retweet-light.png */; };
-		25C9FDE71F219DCC00FBB015 /* retweet-on.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C9FDDB1F219DCC00FBB015 /* retweet-on.png */; };
 		25CA284B1A92860D009CF489 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CA284A1A92860D009CF489 /* LoginViewController.swift */; };
 		25CA28501A929E43009CF489 /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CA284F1A929E43009CF489 /* Tweet.swift */; };
 		25E7C6E31AA8CE1600431A81 /* favorite-dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 25E7C6E01AA8CE1600431A81 /* favorite-dark.png */; };
@@ -77,18 +65,6 @@
 		259734AC1A942ED500D2C714 /* TweetTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetTableViewCell.swift; sourceTree = "<group>"; };
 		259734B31A957E5900D2C714 /* ComposeTweetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposeTweetViewController.swift; sourceTree = "<group>"; };
 		25BBF4621A97E29400EAAF91 /* TweetDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetDetailViewController.swift; sourceTree = "<group>"; };
-		25C9FDD01F219DCC00FBB015 /* favorite-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "favorite-dark.png"; sourceTree = "<group>"; };
-		25C9FDD11F219DCC00FBB015 /* favorite-light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "favorite-light.png"; sourceTree = "<group>"; };
-		25C9FDD21F219DCC00FBB015 /* favorite-on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "favorite-on.png"; sourceTree = "<group>"; };
-		25C9FDD31F219DCC00FBB015 /* hamburger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hamburger.png; sourceTree = "<group>"; };
-		25C9FDD41F219DCC00FBB015 /* logout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logout.png; sourceTree = "<group>"; };
-		25C9FDD51F219DCC00FBB015 /* refresh-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "refresh-arrow.png"; sourceTree = "<group>"; };
-		25C9FDD61F219DCC00FBB015 /* refresh-arrowsmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "refresh-arrowsmall.png"; sourceTree = "<group>"; };
-		25C9FDD71F219DCC00FBB015 /* reply-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reply-dark.png"; sourceTree = "<group>"; };
-		25C9FDD81F219DCC00FBB015 /* reply-light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reply-light.png"; sourceTree = "<group>"; };
-		25C9FDD91F219DCC00FBB015 /* retweet-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "retweet-dark.png"; sourceTree = "<group>"; };
-		25C9FDDA1F219DCC00FBB015 /* retweet-light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "retweet-light.png"; sourceTree = "<group>"; };
-		25C9FDDB1F219DCC00FBB015 /* retweet-on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "retweet-on.png"; sourceTree = "<group>"; };
 		25CA284A1A92860D009CF489 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		25CA284C1A929DFE009CF489 /* How Tweet It Is-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "How Tweet It Is-Bridging-Header.h"; sourceTree = "<group>"; };
 		25CA284F1A929E43009CF489 /* Tweet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
@@ -316,7 +292,7 @@
 		257D6F661A924E8B00239705 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Kevin Farst";
 				TargetAttributes = {
 					257D6F6D1A924E8B00239705 = {
@@ -475,15 +451,19 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -517,8 +497,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -526,6 +508,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -535,6 +518,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -547,6 +531,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = "How Tweet It Is/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.codepath.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "How Tweet It Is/How Tweet It Is-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -562,6 +547,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = "How Tweet It Is/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.codepath.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "How Tweet It Is/How Tweet It Is-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
@@ -582,6 +568,7 @@
 				);
 				INFOPLIST_FILE = "How Tweet It IsTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.codepath.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/How Tweet It Is.app/How Tweet It Is";
@@ -598,6 +585,7 @@
 				);
 				INFOPLIST_FILE = "How Tweet It IsTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.codepath.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/How Tweet It Is.app/How Tweet It Is";

@@ -22,8 +22,8 @@ class LoginViewController: UIViewController {
             (user: User?, error: Error?) in
 
             if user != nil {
-                var dashboardController = self.sb.instantiateViewControllerWithIdentifier("MenuViewController") as MenuViewController
-                self.presentViewController(dashboardController, animated: true, completion: nil)
+                let dashboardController = self.sb.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
+                self.present(dashboardController, animated: true, completion: nil)
             } else {
                print(error as Any)
             }

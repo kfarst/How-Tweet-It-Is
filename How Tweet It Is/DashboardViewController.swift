@@ -104,18 +104,18 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     @IBAction func profileImageTapped(sender: AnyObject) {
-        var indexPathRow = sender.tag
-        var tweet = tweets[indexPathRow]
-        var profileNavVC = sb.instantiateViewControllerWithIdentifier("ProfileNavigationController") as CustomNavigationViewController
-        var profileVC: ProfileViewController = profileNavVC.childViewControllers[0] as ProfileViewController
+        let indexPathRow = sender.tag
+        let tweet = tweets[indexPathRow!]
+        let profileNavVC = sb.instantiateViewController(withIdentifier: "ProfileNavigationController") as! CustomNavigationViewController
+        let profileVC: ProfileViewController = profileNavVC.childViewControllers[0] as! ProfileViewController
         
-        profileNavVC.navigationBar.barStyle = UIBarStyle.BlackTranslucent
+        profileNavVC.navigationBar.barStyle = UIBarStyle.blackTranslucent
         profileNavVC.navigationBar.barTintColor = UIColor(hexString: "#55acee")
-        profileNavVC.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        profileNavVC.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
 
         profileVC.user = tweet.user
         
-        self.presentViewController(profileNavVC, animated: true, completion: nil)
+        self.present(profileNavVC, animated: true, completion: nil)
     }
     
     override func viewDidLoad() {
@@ -135,7 +135,7 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
                     self.tweetTableView.reloadData()
                     SVProgressHUD.dismiss()
                 } else {
-                    println("Tweets fetching error: \(error!)")
+                    print("Tweets fetching error: \(error!)")
                 }
             })
         } else if self.timelineType == "mentions" {
@@ -145,12 +145,12 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
                     self.tweetTableView.reloadData()
                     SVProgressHUD.dismiss()
                 } else {
-                    println("Mention tweets fetching error: \(error!)")
+                    print("Mention tweets fetching error: \(error!)")
                 }
             })
         }
     
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "newTweetCreated:", name: "NewTweetCreated", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(DashboardViewController.newTweetCreated(_:)), name: NSNotification.Name(rawValue: "NewTweetCreated"), object: nil)
 
         initializeRefreshControl()
         tweetTableView.reloadData()
@@ -180,7 +180,7 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         cell.delegate = self
         
         if (tweets.count - indexPath.row == 1) {
-            DispatchQueue.global( priority: DispatchQueue.GlobalQueuePriority.low).async(execute: {
+            DispatchQueue.global().async(execute: {
                 self.loadMoreTweets()
             })
         }
