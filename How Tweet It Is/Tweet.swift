@@ -15,7 +15,7 @@ class Tweet: NSObject {
     var retweetedBy: User?
     var text: String?
     var createdAtString: String?
-    var createdAt: NSDate?
+    var createdAt: Date?
     var favoriteCount: Int?
     var retweetCount: Int?
     var userReadableCreatedTime: String?
@@ -24,11 +24,11 @@ class Tweet: NSObject {
     var favorited: Int?
     var entities: NSDictionary?
     
-    class func formatCreatedTimeToUserReadableTime(createdAt: NSDate) -> String {
+    class func formatCreatedTimeToUserReadableTime(_ createdAt: Date) -> String {
         
-        var timeSinceCreation = createdAt.timeIntervalSinceNow
-        var timeSinceCreationInt =  Int(timeSinceCreation) * -1
-        var timeSinceCreationMins = timeSinceCreationInt/60 as Int
+        let timeSinceCreation = createdAt.timeIntervalSinceNow
+        let timeSinceCreationInt =  Int(timeSinceCreation) * -1
+        let timeSinceCreationMins = timeSinceCreationInt/60 as Int
         
         if (timeSinceCreationMins == 0) {
             return "now"
@@ -43,7 +43,7 @@ class Tweet: NSObject {
     }
     
     init(dictionary: NSDictionary) {
-        user = User(dictionary: dictionary["user"] as NSDictionary)
+        user = User(dictionary: dictionary["user"] as! NSDictionary)
         text = dictionary["text"] as? String
         createdAtString = dictionary["created_at"] as? String
         favoriteCount = dictionary["favorite_count"] as? Int
@@ -53,21 +53,21 @@ class Tweet: NSObject {
         favorited = dictionary["favorited"] as? Int
         entities = dictionary["entities"] as? NSDictionary
         
-        var formatter = NSDateFormatter()
+        let formatter = DateFormatter()
         
         formatter.dateFormat = "EEE MM d HH:mm:ss Z y"
         
-        createdAt = formatter.dateFromString(createdAtString!)
+        createdAt = formatter.date(from: createdAtString!)
         userReadableCreatedTime = Tweet.formatCreatedTimeToUserReadableTime(createdAt!)
     }
     
-    class func tweetsWithArray(array: [NSDictionary]) -> [Tweet] {
+    class func tweetsWithArray(_ array: [NSDictionary]) -> [Tweet] {
         var tweets = [Tweet]()
         
         for dictionary in array {
             if (dictionary["retweeted_status"] != nil) {
-                var tweet = Tweet(dictionary: dictionary["retweeted_status"] as NSDictionary)
-                tweet.retweetedBy = User(dictionary: dictionary["user"] as NSDictionary)
+                let tweet = Tweet(dictionary: dictionary["retweeted_status"] as! NSDictionary)
+                tweet.retweetedBy = User(dictionary: dictionary["user"] as! NSDictionary)
                 tweets.append(tweet)
             } else {
                 tweets.append(Tweet(dictionary: dictionary))
@@ -77,90 +77,90 @@ class Tweet: NSObject {
         return tweets
     }
     
-    class func getHomeTimeline(params: NSDictionary?, completion: (tweets: [Tweet]?, error: NSError?) -> ()) {
-        TwitterClient.sharedInstance.GET("1.1/statuses/home_timeline.json", parameters: params,
-            success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
-                var tweets = Tweet.tweetsWithArray(response as [NSDictionary])
-                completion(tweets: tweets, error: nil)
+    class func getHomeTimeline(_ params: NSDictionary?, completion: @escaping (_ tweets: [Tweet]?, _ error: Error?) -> ()) {
+        TwitterClient.sharedInstance.get("1.1/statuses/home_timeline.json", parameters: params,
+            success: { (operation: AFHTTPRequestOperation?, response: Any?) -> Void in
+                let tweets = Tweet.tweetsWithArray(response as! [NSDictionary])
+                completion(tweets, nil)
                 
-            }, failure: { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
-                completion(tweets: nil, error: error)
+            }, failure: { (operation: AFHTTPRequestOperation?, error: Error?) -> Void in
+                completion(nil, error)
             }
         )
     }
     
-    class func getMentionsTimeline(params: NSDictionary?, completion: (tweets: [Tweet]?, error: NSError?) -> ()) {
-        TwitterClient.sharedInstance.GET("1.1/statuses/mentions_timeline.json", parameters: params,
+    class func getMentionsTimeline(_ params: NSDictionary?, completion: @escaping (_ tweets: [Tweet]?, _ error: Error?) -> ()) {
+        TwitterClient.sharedInstance.get("1.1/statuses/mentions_timeline.json", parameters: params,
             success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
-                var tweets = Tweet.tweetsWithArray(response as [NSDictionary])
-                completion(tweets: tweets, error: nil)
+                let tweets = Tweet.tweetsWithArray(response as! [NSDictionary])
+                completion(tweets, nil)
                 
-            }, failure: { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
-                completion(tweets: nil, error: error)
+            } as! (AFHTTPRequestOperation?, Any?) -> Void, failure: { (operation: AFHTTPRequestOperation!, error: Error!) -> Void in
+                completion(nil, error)
             }
         )
     }
     
-    class func getUserTimeline(screenName: String, completion: (tweets: [Tweet]?, error: NSError?) -> ()) {
-        TwitterClient.sharedInstance.GET("1.1/statuses/user_timeline.json?screen_name=\(screenName)", parameters: nil,
+    class func getUserTimeline(_ screenName: String, completion: @escaping (_ tweets: [Tweet]?, _ error: Error?) -> ()) {
+        TwitterClient.sharedInstance.get("1.1/statuses/user_timeline.json?screen_name=\(screenName)", parameters: nil,
             success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
-                var tweets = Tweet.tweetsWithArray(response as [NSDictionary])
-                completion(tweets: tweets, error: nil)
-            }, failure: { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
-                completion(tweets: nil, error: error)
+                let tweets = Tweet.tweetsWithArray(response as! [NSDictionary])
+                completion(tweets, nil)
+            } as! (AFHTTPRequestOperation?, Any?) -> Void, failure: { (operation: AFHTTPRequestOperation!, error: Error!) -> Void in
+                completion(nil, error)
             }
         )
     }
     
-    class func retweet(id: String, completion: (error: NSError?) -> ()) {
-        TwitterClient.sharedInstance.POST("1.1/statuses/retweet/\(id).json", parameters: nil,
+    class func retweet(_ id: String, completion: @escaping (_ error: Error?) -> ()) {
+        TwitterClient.sharedInstance.post("1.1/statuses/retweet/\(id).json", parameters: nil,
             success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
-                completion(error: nil)
+                completion(nil)
                 
-            }, failure: { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
-                completion(error: error)
+            } as! (AFHTTPRequestOperation?, Any?) -> Void, failure: { (operation: AFHTTPRequestOperation!, error: Error!) -> Void in
+                completion(error)
             }
         )
     }
     
-    class func favorite(id: String, completion: (error: NSError?) -> ()) {
-        TwitterClient.sharedInstance.POST("1.1/favorites/create.json?id=\(id)", parameters: nil,
+    class func favorite(_ id: String, completion: @escaping (_ error: Error?) -> ()) {
+        TwitterClient.sharedInstance.post("1.1/favorites/create.json?id=\(id)", parameters: nil,
             success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
-                completion(error: nil)
+                completion(nil)
                 
-            }, failure: { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
-                completion(error: error)
+            } as! (AFHTTPRequestOperation?, Any?) -> Void, failure: { (operation: AFHTTPRequestOperation!, error: Error!) -> Void in
+                completion(error)
             }
         )
     }
     
-    class func unfavorite(id: String, completion: (error: NSError?) -> ()) {
-        TwitterClient.sharedInstance.POST("1.1/favorites/destroy.json?id=\(id)", parameters: nil,
+    class func unfavorite(_ id: String, completion: @escaping (_ error: Error?) -> ()) {
+        TwitterClient.sharedInstance.post("1.1/favorites/destroy.json?id=\(id)", parameters: nil,
             success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
-                completion(error: nil)
+                completion(nil)
                 
-            }, failure: { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
-                completion(error: error)
+            } as! (AFHTTPRequestOperation?, Any?) -> Void, failure: { (operation: AFHTTPRequestOperation!, error: Error!) -> Void in
+                completion(error)
             }
         )
     }
     
     
-    class func newTweet(text: String, inReplyToTweetId: String?, completion: (tweet: Tweet?, error: NSError?) -> ()) {
+    class func newTweet(_ text: String, inReplyToTweetId: String?, completion: @escaping (_ tweet: Tweet?, _ error: Error?) -> ()) {
         
         let params = ["status":text] as NSMutableDictionary
         if let replyToTweetId = inReplyToTweetId {
             params["in_reply_to_status_id"] = replyToTweetId
         }
-        println(params)
-        TwitterClient.sharedInstance.POST("1.1/statuses/update.json", parameters: params, constructingBodyWithBlock: nil, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
-            var tweet = Tweet(dictionary: response as NSDictionary)
-            completion(tweet: tweet, error: nil)
-            
-            }) {(operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
-                completion(tweet: nil, error: error)
+        print(params)
+        TwitterClient.sharedInstance.post("1.1/statuses/update.json", parameters: params, success: { (operation: AFHTTPRequestOperation!, response: Any!) -> Void in
+            let tweet = Tweet(dictionary: response as! NSDictionary)
+            completion(tweet, nil)
+        }) { (operation: AFHTTPRequestOperation?, error: Error?) in
+            print("\(String(describing: error?.localizedDescription))")
         }
     }
-    
-    
 }
+    
+    
+

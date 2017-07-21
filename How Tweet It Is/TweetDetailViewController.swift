@@ -7,9 +7,33 @@
 //
 
 import UIKit
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 @objc protocol TweetDetailViewControllerDelegate {
-    func backButtonClicked(tweet:Tweet, indexPathRow: Int)
+    func backButtonClicked(_ tweet:Tweet, indexPathRow: Int)
 }
 
 class TweetDetailViewController: UIViewController {
@@ -33,35 +57,35 @@ class TweetDetailViewController: UIViewController {
     @IBOutlet weak var favoriteCount: UILabel!
     @IBOutlet weak var createdAtLabel: UILabel!
     
-    @IBAction func onReply(sender: AnyObject) {
-        var vc: ComposeTweetViewController = sb.instantiateViewControllerWithIdentifier("ComposeTweetViewController") as ComposeTweetViewController
+    @IBAction func onReply(_ sender: AnyObject) {
+        let vc: ComposeTweetViewController = sb.instantiateViewController(withIdentifier: "ComposeTweetViewController") as! ComposeTweetViewController
         vc.replyToTweet = tweet
-        self.presentViewController(vc, animated: true, completion: nil)
+        self.present(vc, animated: true, completion: nil)
     }
     
-    @IBAction func onRetweet(sender: AnyObject) {
+    @IBAction func onRetweet(_ sender: AnyObject) {
         self.tweet!.retweeted = 1
         self.tweet!.retweetCount! += 1
-        self.retweetButton.enabled = false
+        self.retweetButton.isEnabled = false
         self.viewDidLoad()
         
-        Tweet.retweet(self.tweet!.id!, completion: {(error: NSError?) -> Void in
+        Tweet.retweet(self.tweet!.id!, completion: {(error: Error?) -> Void in
             if (error != nil) {
                 self.tweet!.retweeted = 0
                 self.tweet!.retweetCount! -= 1
-                self.retweetButton.enabled = true
+                self.retweetButton.isEnabled = true
                 self.viewDidLoad()
             }
         })
 
     }
     
-    @IBAction func onFavorite(sender: AnyObject) {
+    @IBAction func onFavorite(_ sender: AnyObject) {
         if (self.tweet!.favorited == 0) {
             self.tweet!.favorited = 1
             self.tweet!.favoriteCount! += 1
             self.viewDidLoad()
-            Tweet.favorite(self.tweet!.id!, completion: {(error: NSError?) -> Void in
+            Tweet.favorite(self.tweet!.id!, completion: {(error: Error?) -> Void in
                 if (error != nil) {
                     self.tweet!.favorited = 0
                     self.tweet!.favoriteCount! -= 1
@@ -73,7 +97,7 @@ class TweetDetailViewController: UIViewController {
             self.tweet!.favoriteCount! -= 1
             self.viewDidLoad()
             
-            Tweet.unfavorite(self.tweet!.id!, completion: {(error: NSError?) -> Void in
+            Tweet.unfavorite(self.tweet!.id!, completion: {(error: Error?) -> Void in
                 if (error != nil) {
                     self.tweet!.favorited = 0
                     self.tweet!.favoriteCount! -= 1
@@ -86,7 +110,7 @@ class TweetDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        profileImage.setImageWithURL(NSURL(string: tweet!.user!.profileImageUrl!))
+        profileImage.setImageWith(URL(string: tweet!.user!.profileImageUrl!))
         profileImage.layer.cornerRadius = 4
         profileImage.clipsToBounds = true
         
@@ -94,18 +118,18 @@ class TweetDetailViewController: UIViewController {
         handleLabel.text = "@\(tweet!.user!.screenName!)"
         tweetLabel.text = tweet!.text!
         
-        var dateFormat = NSDateFormatter()
+        let dateFormat = DateFormatter()
         dateFormat.dateFormat = "MM/dd/yy, hh:mm a"
-        createdAtLabel.text = dateFormat.stringFromDate(tweet!.createdAt!)
+        createdAtLabel.text = dateFormat.string(from: tweet!.createdAt! as Date)
         
         if (tweet!.favoriteCount > 0) {
-            self.favoriteCount.hidden = false
+            self.favoriteCount.isHidden = false
             self.favoriteCount.text = "\(tweet!.favoriteCount!)"
         } else {
             self.favoriteCount.text = "0"
         }
         if (tweet!.retweetCount > 0) {
-            self.retweetCount.hidden = false
+            self.retweetCount.isHidden = false
             self.retweetCount.text = "\(tweet!.retweetCount!)"
         } else {
             self.favoriteCount.text = "0"
@@ -113,16 +137,16 @@ class TweetDetailViewController: UIViewController {
         
         if let retweetedBy = tweet?.retweetedBy {
             self.retweetLabel.text = "\(retweetedBy.name!) retweeted"
-            self.retweetLabel.hidden = false
-            self.retweetImage.hidden = false
+            self.retweetLabel.isHidden = false
+            self.retweetImage.isHidden = false
             
         } else {
-            self.retweetLabel.hidden = true
-            self.retweetImage.hidden = true
+            self.retweetLabel.isHidden = true
+            self.retweetImage.isHidden = true
             
         }
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "dismissViewController", name:"NewTweetCreated", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(TweetDetailViewController.dismissViewController), name:NSNotification.Name(rawValue: "NewTweetCreated"), object: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -131,7 +155,7 @@ class TweetDetailViewController: UIViewController {
     }
 
     func dismissViewController() {
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
     
 

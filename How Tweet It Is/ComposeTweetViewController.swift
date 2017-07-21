@@ -9,7 +9,7 @@
 import UIKit
 
 @objc protocol ComposeTweetDelegate {
-    func tweetComposed(tweet: Tweet)
+    func tweetComposed(_ tweet: Tweet)
 }
 
 class ComposeTweetViewController: UIViewController, UITextViewDelegate {
@@ -22,25 +22,25 @@ class ComposeTweetViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var tweetText: UITextView!
     @IBOutlet weak var placeholderLabel: UILabel!
     
-    @IBAction func cancelComposition(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func cancelComposition(_ sender: AnyObject) {
+        self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func newTweetPosted(sender: AnyObject) {
-        var text = tweetText.text
+    @IBAction func newTweetPosted(_ sender: AnyObject) {
+        let text = tweetText.text
         var inReplyToTweetId: String? = nil
         
         if let inReplyToTweet = replyToTweet {
             inReplyToTweetId = inReplyToTweet.id
         }
         
-        Tweet.newTweet(text, inReplyToTweetId: inReplyToTweetId) { (tweet, error) -> () in
+        Tweet.newTweet(text!, inReplyToTweetId: inReplyToTweetId) { (tweet, error) -> () in
             if (error != nil) {
-                println("Tweeting error: \(error)")
+                print("Tweeting error: \(String(describing: error))")
             } else {
-                NSNotificationCenter.defaultCenter().postNotificationName("NewTweetCreated", object: tweet)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "NewTweetCreated"), object: tweet)
                 
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
             }
         }
     }
@@ -55,29 +55,29 @@ class ComposeTweetViewController: UIViewController, UITextViewDelegate {
         
         
         tweetButton.backgroundColor = twitterBlue
-        tweetButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        tweetButton.setTitleColor(UIColor.lightGrayColor(), forState: UIControlState.Highlighted)
+        tweetButton.setTitleColor(UIColor.white, for: UIControlState())
+        tweetButton.setTitleColor(UIColor.lightGray, for: UIControlState.highlighted)
         tweetButton.layer.cornerRadius = 4
         tweetButton.layer.masksToBounds = true
         tweetButton.clipsToBounds = false
         
         if let imageUrl = user?.profileImageUrl {
-            profileImage.setImageWithURL(NSURL(string: imageUrl))
+            profileImage.setImageWith(URL(string: imageUrl))
         }
         
         nameLabel.text = user?.name
         handleLabel.text = user?.screenName
 
         if replyToTweet == nil {
-            placeholderLabel.hidden = false
+            placeholderLabel.isHidden = false
         } else {
             if let handle = replyToTweet?.user?.screenName {
-                placeholderLabel.hidden = true
+                placeholderLabel.isHidden = true
                 tweetText.text = "@\(handle)"
             }
             
             var text = tweetText.text!
-            var count = countElements(text)
+            let count = text.characters.count
             
             characterCountLabel.text = "\(140 - count)"
         }
@@ -89,28 +89,28 @@ class ComposeTweetViewController: UIViewController, UITextViewDelegate {
         tweetText.becomeFirstResponder()
     }
     
-    func textViewDidChange(textView: UITextView) {
-        placeholderLabel.hidden = true
+    func textViewDidChange(_ textView: UITextView) {
+        placeholderLabel.isHidden = true
         
         var text = tweetText.text!
-        var count = countElements(text)
+        let count = text.characters.count
         
         characterCountLabel.text = "\(140 - count)"
         
         if (count == 0) {
-            tweetButton.enabled = false
+            tweetButton.isEnabled = false
         } else {
-            tweetButton.enabled = true
+            tweetButton.isEnabled = true
         }
         
         if (count > 140) {
-            tweetButton.enabled = false
-            tweetButton.backgroundColor = UIColor.grayColor()
-            characterCountLabel.textColor = UIColor.redColor()
+            tweetButton.isEnabled = false
+            tweetButton.backgroundColor = UIColor.gray
+            characterCountLabel.textColor = UIColor.red
         } else {
-            tweetButton.enabled = true
+            tweetButton.isEnabled = true
             tweetButton.backgroundColor = twitterBlue
-            characterCountLabel.textColor = UIColor.lightGrayColor()
+            characterCountLabel.textColor = UIColor.lightGray
         }
     }
     
@@ -120,9 +120,9 @@ class ComposeTweetViewController: UIViewController, UITextViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    func textViewDidEndEditing(textView: UITextView) {
+    func textViewDidEndEditing(_ textView: UITextView) {
         if tweetText.text.isEmpty {
-            placeholderLabel.hidden = false
+            placeholderLabel.isHidden = false
         }
     }
 

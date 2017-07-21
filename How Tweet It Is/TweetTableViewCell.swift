@@ -7,6 +7,30 @@
 //
 
 import UIKit
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 @objc protocol TweetTableViewCellDelegate {
     func replyToTweet(tweet: Tweet!)
@@ -40,52 +64,52 @@ class TweetTableViewCell: UITableViewCell {
             self.tweetLabel.text = newTweet.text
             
             if (newTweet.favoriteCount > 0) {
-                self.favoriteCountLabel.hidden = false
+                self.favoriteCountLabel.isHidden = false
                 self.favoriteCountLabel.text = "\(newTweet.favoriteCount!)"
             } else {
-                self.favoriteCountLabel.hidden = true
+                self.favoriteCountLabel.isHidden = true
             }
             
             if (newTweet.retweetCount > 0) {
-                self.retweetCountLabel.hidden = false
+                self.retweetCountLabel.isHidden = false
                 self.retweetCountLabel.text = "\(newTweet.retweetCount!)"
             } else {
-                self.retweetCountLabel.hidden = true
+                self.retweetCountLabel.isHidden = true
             }
             
             if let retweetedBy = newTweet.retweetedBy {
                 self.retweetLabel.text = "\(retweetedBy.name!) retweeted"
-                self.retweetLabel.hidden = false
-                self.retweetImage.hidden = false
+                self.retweetLabel.isHidden = false
+                self.retweetImage.isHidden = false
             } else {
-                self.retweetLabel.hidden = true
-                self.retweetImage.hidden = true
+                self.retweetLabel.isHidden = true
+                self.retweetImage.isHidden = true
             }
             
-            self.profileImage.setImageWithURL(NSURL(string: newTweet.user!.profileImageUrl! as NSString))
+            self.profileImage.setImageWith(URL(string: (newTweet.user!.profileImageUrl! as NSString) as String))
             
             profileImage.layer.cornerRadius = 5;
             profileImage.clipsToBounds = true;
             timeLabel.text = newTweet.userReadableCreatedTime
             
             if (newTweet.retweeted == 1) {
-                self.retweetButton.enabled = false
+                self.retweetButton.isEnabled = false
                 let image = UIImage(named: "retweet-on.png") as UIImage?
-                self.retweetButton.setImage(image, forState: UIControlState.Disabled)
+                self.retweetButton.setImage(image, for: UIControlState.disabled)
             } else {
-                self.retweetButton.enabled = true
+                self.retweetButton.isEnabled = true
                 let image = UIImage(named: "retweet-light.png") as UIImage?
-                self.retweetButton.setImage(image, forState: UIControlState.Normal)
+                self.retweetButton.setImage(image, for: UIControlState())
             }
             
             if (newTweet.favorited == 1) {
-                self.favoriteButton.enabled = false
+                self.favoriteButton.isEnabled = false
                 let image = UIImage(named: "favorite-on.png") as UIImage?
-                self.favoriteButton.setImage(image, forState: UIControlState.Normal)
+                self.favoriteButton.setImage(image, for: UIControlState())
             } else {
-                self.favoriteButton.enabled = true
+                self.favoriteButton.isEnabled = true
                 let image = UIImage(named: "favorite-light.png") as UIImage?
-                self.favoriteButton.setImage(image, forState: UIControlState.Normal)
+                self.favoriteButton.setImage(image, for: UIControlState())
             }
             
             // These tags will help when the user clicks to figure out what row this belongs to.
@@ -114,7 +138,7 @@ class TweetTableViewCell: UITableViewCell {
         // Initialization code
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state

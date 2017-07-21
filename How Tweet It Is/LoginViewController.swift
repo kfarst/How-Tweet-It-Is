@@ -17,15 +17,15 @@ class LoginViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
     }
     
-    @IBAction func twitterLogin(sender: AnyObject) {
+    @IBAction func twitterLogin(_ sender: AnyObject) {
         TwitterClient.sharedInstance.loginWithCompletion() {
-            (user: User?, error: NSError?) in
+            (user: User?, error: Error?) in
 
             if user != nil {
-                var dashboardController = self.sb.instantiateViewControllerWithIdentifier("NavigationController") as UINavigationController
-                self.presentViewController(dashboardController, animated: true, completion: nil)
+                let dashboardController = self.sb.instantiateViewController(withIdentifier: "NavigationController") as! UINavigationController
+                self.present(dashboardController, animated: true, completion: nil)
             } else {
-               println(error)
+               print(error as Any)
             }
             
         }

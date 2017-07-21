@@ -52,31 +52,31 @@ extension SWColor {
         
         // Check for hash and remove the hash
         if hex.hasPrefix("#") {
-            hex = hex.substringFromIndex(advance(hex.startIndex, 1))
+            hex = hex.substring(from: hex.index(hex.startIndex, offsetBy: 1))
         }
         
-        if let match = hex.rangeOfString("(^[0-9A-Fa-f]{6}$)|(^[0-9A-Fa-f]{3}$)", options: .RegularExpressionSearch) {
+        if hex.range(of: "(^[0-9A-Fa-f]{6}$)|(^[0-9A-Fa-f]{3}$)", options: .regularExpression) != nil {
             
             // Deal with 3 character Hex strings
-            if countElements(hex) == 3 {
-                var redHex   = hex.substringToIndex(advance(hex.startIndex, 1))
-                var greenHex = hex.substringWithRange(Range<String.Index>(start: advance(hex.startIndex, 1), end: advance(hex.startIndex, 2)))
-                var blueHex  = hex.substringFromIndex(advance(hex.startIndex, 2))
+            if hex.characters.count == 3 {
+                let redHex   = hex.substring(to: hex.index(hex.startIndex, offsetBy: 1))
+                let greenHex = hex.substring(with: (hex.index(hex.startIndex, offsetBy: 1) ..< hex.index(hex.startIndex, offsetBy: 2)))
+                let blueHex  = hex.substring(from: hex.index(hex.startIndex, offsetBy: 2))
                 
                 hex = redHex + redHex + greenHex + greenHex + blueHex + blueHex
             }
             
-            let redHex = hex.substringToIndex(advance(hex.startIndex, 2))
-            let greenHex = hex.substringWithRange(Range<String.Index>(start: advance(hex.startIndex, 2), end: advance(hex.startIndex, 4)))
-            let blueHex = hex.substringWithRange(Range<String.Index>(start: advance(hex.startIndex, 4), end: advance(hex.startIndex, 6)))
+            let redHex = hex.substring(to: hex.index(hex.startIndex, offsetBy: 2))
+            let greenHex = hex.substring(with: (hex.index(hex.startIndex, offsetBy: 2) ..< hex.index(hex.startIndex, offsetBy: 4)))
+            let blueHex = hex.substring(with: (hex.index(hex.startIndex, offsetBy: 4) ..< hex.index(hex.startIndex, offsetBy: 6)))
             
             var redInt:   CUnsignedInt = 0
             var greenInt: CUnsignedInt = 0
             var blueInt:  CUnsignedInt = 0
             
-            NSScanner(string: redHex).scanHexInt(&redInt)
-            NSScanner(string: greenHex).scanHexInt(&greenInt)
-            NSScanner(string: blueHex).scanHexInt(&blueInt)
+            Scanner(string: redHex).scanHexInt32(&redInt)
+            Scanner(string: greenHex).scanHexInt32(&greenInt)
+            Scanner(string: blueHex).scanHexInt32(&blueInt)
             
             self.init(red: CGFloat(redInt) / 255.0, green: CGFloat(greenInt) / 255.0, blue: CGFloat(blueInt) / 255.0, alpha: CGFloat(alpha))
         }
@@ -109,7 +109,7 @@ extension SWColor {
     :returns: color with the given hex value and alpha
     */
     convenience init?(hex: Int, alpha: Float) {
-        var hexString = NSString(format: "%2X", hex)
-        self.init(hexString: hexString, alpha: alpha)
+        let hexString = NSString(format: "%2X", hex)
+        self.init(hexString: hexString as String, alpha: alpha)
     }
 }
