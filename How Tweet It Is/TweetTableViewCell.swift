@@ -104,11 +104,9 @@ class TweetTableViewCell: UITableViewCell {
             }
             
             if (newTweet.favorited == 1) {
-                self.favoriteButton.isEnabled = false
                 let image = UIImage(named: "favorite-on") as UIImage?
                 self.favoriteButton.setImage(image, for: UIControlState())
             } else {
-                self.favoriteButton.isEnabled = true
                 let image = UIImage(named: "favorite-light") as UIImage?
                 self.favoriteButton.setImage(image, for: UIControlState())
             }

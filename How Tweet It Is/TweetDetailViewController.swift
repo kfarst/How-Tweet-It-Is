@@ -109,6 +109,8 @@ class TweetDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationController?.navigationBar.tintColor = .white
 
         profileImage.setImageWith(URL(string: tweet!.user!.profileImageUrl!))
         profileImage.layer.cornerRadius = 4
@@ -122,13 +124,32 @@ class TweetDetailViewController: UIViewController {
         dateFormat.dateFormat = "MM/dd/yy, hh:mm a"
         createdAtLabel.text = dateFormat.string(from: tweet!.createdAt! as Date)
         
-        if (tweet!.favoriteCount > 0) {
+        if tweet!.favoriteCount > 0 {
             self.favoriteCount.isHidden = false
             self.favoriteCount.text = "\(tweet!.favoriteCount!)"
         } else {
             self.favoriteCount.text = "0"
         }
-        if (tweet!.retweetCount > 0) {
+        
+        if tweet?.retweeted == 1 {
+            retweetButton.isEnabled = false
+            let image = UIImage(named: "retweet-on") as UIImage?
+            retweetButton.setImage(image, for: UIControlState.disabled)
+        } else {
+            retweetButton.isEnabled = true
+            let image = UIImage(named: "retweet-light") as UIImage?
+            self.retweetButton.setImage(image, for: UIControlState())
+        }
+        
+        if tweet?.favorited == 1 {
+            let image = UIImage(named: "favorite-on") as UIImage?
+            favoriteButton.setImage(image, for: UIControlState())
+        } else {
+            let image = UIImage(named: "favorite-light") as UIImage?
+            favoriteButton.setImage(image, for: UIControlState())
+        }
+        
+        if tweet!.retweetCount > 0 {
             self.retweetCount.isHidden = false
             self.retweetCount.text = "\(tweet!.retweetCount!)"
         } else {
@@ -158,7 +179,9 @@ class TweetDetailViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
     /*
     // MARK: - Navigation
 

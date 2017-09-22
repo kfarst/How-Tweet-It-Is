@@ -113,14 +113,14 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         var params: NSDictionary = ["max_id": self.tweets[tweets.count-1].id!]
         
-        Tweet.getHomeTimeline(params, completion: {(newTweets: [Tweet]?, error: NSError?) -> Void in
+        Tweet.getHomeTimeline(params, completion: {(newTweets: [Tweet]?, error: Error?) -> Void in
             if (newTweets != nil) {
                 self.tweets += newTweets!
                 self.tweetTableView.reloadData()
             } else {
                 print("Tweets fetching error: \(error!)")
             }
-        } as! ([Tweet]?, Error?) -> ())
+        })
         
         self.refreshControl.endRefreshing()
     }

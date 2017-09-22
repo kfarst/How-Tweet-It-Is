@@ -13,6 +13,7 @@
 		255892CB1A931446008C7277 /* SwiftColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255892CA1A931446008C7277 /* SwiftColors.swift */; };
 		255892CD1A931A7C008C7277 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255892CC1A931A7C008C7277 /* DashboardViewController.swift */; };
 		255892CF1A93D89D008C7277 /* CustomNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255892CE1A93D89D008C7277 /* CustomNavigationViewController.swift */; };
+		256C13CA1F7572830024E9CB /* logout.png in Resources */ = {isa = PBXBuildFile; fileRef = 256C13C91F7572830024E9CB /* logout.png */; };
 		257D6F741A924E8B00239705 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257D6F731A924E8B00239705 /* AppDelegate.swift */; };
 		257D6F7B1A924E8B00239705 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 257D6F7A1A924E8B00239705 /* Images.xcassets */; };
 		257D6F7E1A924E8B00239705 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 257D6F7C1A924E8B00239705 /* LaunchScreen.xib */; };
@@ -52,6 +53,7 @@
 		255892CA1A931446008C7277 /* SwiftColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftColors.swift; sourceTree = "<group>"; };
 		255892CC1A931A7C008C7277 /* DashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		255892CE1A93D89D008C7277 /* CustomNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNavigationViewController.swift; sourceTree = "<group>"; };
+		256C13C91F7572830024E9CB /* logout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logout.png; path = ../../../Desktop/logout.png; sourceTree = "<group>"; };
 		257D6F6E1A924E8B00239705 /* How Tweet It Is.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "How Tweet It Is.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		257D6F721A924E8B00239705 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		257D6F731A924E8B00239705 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 		255892D01A93E333008C7277 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				256C13C91F7572830024E9CB /* logout.png */,
 				25E7C6F01AA8CE5100431A81 /* background-image.png */,
 				25E7C6E61AA8CE2100431A81 /* reply-dark.png */,
 				25E7C6E71AA8CE2100431A81 /* reply-light.png */,
@@ -336,6 +339,7 @@
 				257D6F7E1A924E8B00239705 /* LaunchScreen.xib in Resources */,
 				25E7C6EC1AA8CE2100431A81 /* reply-light.png in Resources */,
 				257D6F7B1A924E8B00239705 /* Images.xcassets in Resources */,
+				256C13CA1F7572830024E9CB /* logout.png in Resources */,
 				25E7C6F11AA8CE5100431A81 /* background-image.png in Resources */,
 				25E7C6EF1AA8CE2100431A81 /* retweet-on.png in Resources */,
 				251EA7251A99A79700904567 /* Main.storyboard in Resources */,
